@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">GeekNews</string>
     <string name="news_sources">News Sources</string>
+    <string name="wired">Wired</string>
+    <string name="ars">Ars Technica</string>
+    <string name="cnet">Cnet</string>
+    <string name="engadget">Engadget</string>
+    <string name="hackernews">Hacker News</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
 </resources>
