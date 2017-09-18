@@ -24,7 +24,9 @@
             android:name=".data.NewsContentProvider"
             android:authorities="biz.chundi.geeknews"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="false"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>
