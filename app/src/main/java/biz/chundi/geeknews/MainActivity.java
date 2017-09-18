@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import biz.chundi.geeknews.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements TopFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements TopFragment.OnListFragmentInteractionListener,PopularFragment.OnListFragmentInteractionListener,LatestFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -144,8 +144,19 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return new TopFragment();
+//            return new TopFragment();
+            switch (position) {
+                case 0:
+                    return new TopFragment();
+                case 1:
+                    return new LatestFragment();
+                case 2:
+                    return new PopularFragment();
+            }
+            return null;
+
         }
+
 
         @Override
         public int getCount() {
@@ -165,5 +176,7 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
             }
             return null;
         }
+
     }
 }
+
