@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import biz.chundi.geeknews.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements TopFragment.OnListFragmentInteractionListener,PopularFragment.OnListFragmentInteractionListener,LatestFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements TopFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

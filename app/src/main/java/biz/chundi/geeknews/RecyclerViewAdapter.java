@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import biz.chundi.geeknews.LatestFragment.OnListFragmentInteractionListener;
+import biz.chundi.geeknews.TopFragment.OnListFragmentInteractionListener;
 import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -16,12 +16,12 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class LatestRecyclerViewAdapter extends RecyclerView.Adapter<LatestRecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public LatestRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public RecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -29,7 +29,7 @@ public class LatestRecyclerViewAdapter extends RecyclerView.Adapter<LatestRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_latest, parent, false);
+                .inflate(R.layout.fragment_top, parent, false);
         return new ViewHolder(view);
     }
 
