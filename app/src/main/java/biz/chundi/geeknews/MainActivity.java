@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    public String LOG_TAG = MainActivity.class.getSimpleName();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -81,11 +83,24 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.item1:
+                    Utility.setNewsSource(getString(R.string.wiredSrc));
+            case R.id.item2:
+                Utility.setNewsSource(getString(R.string.recodeSrc));
+            case R.id.item3:
+                Utility.setNewsSource(getString(R.string.arsSrc));
+            case R.id.item4:
+                Utility.setNewsSource(getString(R.string.engadgetSrc));
+            case R.id.item5:
+                Utility.setNewsSource(getString(R.string.hackernewsSrc));
+            default:
+                Utility.setNewsSource(getString(R.string.wiredSrc));
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -95,40 +110,40 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
 
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
+//    /**
+//     * A placeholder fragment containing a simple view.
+//     */
+//    public static class PlaceholderFragment extends Fragment {
+//        /**
+//         * The fragment argument representing the section number for this
+//         * fragment.
+//         */
+//        private static final String ARG_SECTION_NUMBER = "section_number";
+//
+//        public PlaceholderFragment() {
+//        }
+//
+//        /**
+//         * Returns a new instance of this fragment for the given section
+//         * number.
+//         */
+//        public static PlaceholderFragment newInstance(int sectionNumber) {
+//            PlaceholderFragment fragment = new PlaceholderFragment();
+//            Bundle args = new Bundle();
+//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+//            fragment.setArguments(args);
+//            return fragment;
+//        }
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//            return rootView;
+//        }
+//    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

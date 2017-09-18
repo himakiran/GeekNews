@@ -1,5 +1,6 @@
 package biz.chundi.geeknews;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -69,6 +70,7 @@ public class TopFragment extends Fragment {
             }
             recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
+
         return view;
     }
 

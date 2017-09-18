@@ -3,9 +3,18 @@
     <string name="news_sources">News Sources</string>
     <string name="wired">Wired</string>
     <string name="ars">Ars Technica</string>
-    <string name="cnet">Cnet</string>
+    <string name="recode">Recode</string>
     <string name="engadget">Engadget</string>
     <string name="hackernews">Hacker News</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <!-- Account type (for sync-adapter authenticator) -->
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">geeknews.chundi.biz</string>
+    <string name="content_authority">biz.chundi.geeknews.sync</string>
+    <string name="wiredSrc">wired.de</string>
+    <string name="recodeSrc">recode</string>
+    <string name="arsSrc">ars-technica</string>
+    <string name="engadgetSrc">engadget</string>
+    <string name="hackernewsSrc">hacker-news</string>
 
 </resources>

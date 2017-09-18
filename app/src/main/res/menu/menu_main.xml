@@ -3,37 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="biz.chundi.geeknews.MainActivity">
     <group android:checkableBehavior="single">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/news_sources"
-        app:showAsAction="never" >
+
         <item
             android:id="@+id/item1"
-            android:orderInCategory="100"
             android:title="@string/wired"
             app:showAsAction="never" />
         <item
             android:id="@+id/item2"
-            android:orderInCategory="100"
-            android:title="@string/cnet"
+            android:title="@string/recode"
             app:showAsAction="never" />
         <item
             android:id="@+id/item3"
-            android:orderInCategory="100"
             android:title="@string/ars"
             app:showAsAction="never" />
         <item
             android:id="@+id/item4"
-            android:orderInCategory="100"
             android:title="@string/engadget"
             app:showAsAction="never" />
         <item
             android:id="@+id/item5"
-            android:orderInCategory="100"
             android:title="@string/hackernews"
             app:showAsAction="never" />
-        </item>
+
     </group>
 
     
