@@ -53,7 +53,7 @@ public class TopFragment extends Fragment {
     public TopFragment() {
     }
 
-    // TODO: Customize parameter initialization
+
     @SuppressWarnings("unused")
     public static TopFragment newInstance(int columnCount) {
         TopFragment fragment = new TopFragment();
@@ -88,7 +88,7 @@ public class TopFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            mAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Article>(0), new RecyclerViewAdapter.OnListArticleListener() {
+            mAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Article>(), new RecyclerViewAdapter.OnListArticleListener() {
 
                 @Override
                 public void onArticleClick(long id){
@@ -98,30 +98,7 @@ public class TopFragment extends Fragment {
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);
-
-//            mAdapter = mService.getArticles(Utility.getNewsSource(),Utility.getSortOrder(),BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
-//                @Override
-//                public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-//
-//                    if(response.isSuccessful()) {
-//                        mAdapter.updateArticles(response.body().getArticles());
-//                        Log.d(LOG_TAG, "Articles loaded from API");
-//                    }else {
-//                        int statusCode  = response.code();
-//                        // handle request errors depending on status code
-//                        Log.d(LOG_TAG," Error : " + statusCode);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ArticleResponse> call, Throwable t) {
-//
-//                    Log.d(LOG_TAG, "error : "+t.toString());
-//
-//                }
-//            });
-            //// TODO: 19/09/17 Replace below with output of Retrofit response
-            //recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            // Below function launches the Retrofit to get JSON response
             loadArticles();
         }
 
@@ -135,17 +112,18 @@ public class TopFragment extends Fragment {
 
                 if(response.isSuccessful()) {
                     mAdapter.updateArticles(response.body().getArticles());
-                    Log.d(LOG_TAG, "Articles loaded from API");
+                    Log.d(LOG_TAG, "Articles loaded from NEWS API : "+ response.body().getArticles().toString());
                 }else {
                     int statusCode  = response.code();
                     // handle request errors depending on status code
+                    Log.d(LOG_TAG, " Error "+statusCode);
                 }
             }
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
 
-                Log.d(LOG_TAG, "error loading from API");
+                Log.d(LOG_TAG, " Error  "+t.toString());
 
             }
         });
@@ -168,15 +146,6 @@ public class TopFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
 
 }

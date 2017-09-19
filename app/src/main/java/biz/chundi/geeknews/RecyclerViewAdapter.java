@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import biz.chundi.geeknews.data.model.Article;
-import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
+
 
 import java.util.List;
 
-import static android.media.CamcorderProfile.get;
+
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Article} and makes a call to the
@@ -21,7 +21,7 @@ import static android.media.CamcorderProfile.get;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    //private final List<DummyItem> mValues;
+
     private List<Article> mArticle;
     private Context context;
     private final OnListArticleListener mListener;
