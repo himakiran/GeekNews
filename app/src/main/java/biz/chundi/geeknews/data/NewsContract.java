@@ -6,8 +6,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
 
-import static biz.chundi.geeknews.data.NewsContract.BASE_CONTENT_URI;
-import static biz.chundi.geeknews.data.NewsContract.PATH_NEWS;
+
 
 /**
  * Created by himakirankumar on 18/09/17.

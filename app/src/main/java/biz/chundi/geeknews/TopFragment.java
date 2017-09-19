@@ -70,7 +70,7 @@ public class TopFragment extends Fragment {
             }
             recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
-
+        Utility.getJsonFromNewsAPI("wired-de","top");
         return view;
     }
 

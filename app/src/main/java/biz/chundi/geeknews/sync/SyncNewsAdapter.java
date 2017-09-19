@@ -9,20 +9,15 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import biz.chundi.geeknews.BuildConfig;
-import biz.chundi.geeknews.NewsApiInterface;
-import biz.chundi.geeknews.NewsApiResponse;
 import biz.chundi.geeknews.Utility;
-import okhttp3.OkHttpClient;
+import biz.chundi.geeknews.data.model.ArticleResponse;
+import biz.chundi.geeknews.data.model.remote.NewsService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+import static biz.chundi.geeknews.Utility.getNewsService;
 
 /**
  * Created by userhk on 18/09/17.
@@ -77,51 +72,30 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
     public String getJsonFromNewsAPI(String src, String sort){
 
-        Map<String, String> data = new HashMap<>();
-        data.put("source",src);
-        data.put("sortBy",sort);
-        data.put("apiKey", BuildConfig.API_KEY);
+        NewsService mService = getNewsService();
 
-        String API_BASE_URL = "https://newsapi.org/";
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        Retrofit.Builder builder =
-                new Retrofit.Builder()
-                        .baseUrl(API_BASE_URL)
-                        .addConverterFactory(
-                                GsonConverterFactory.create()
-                        );
-
-        Retrofit retrofit = builder.client( httpClient.build()).build();
-
-
-        // Create a very simple REST adapter which points the NewsApi  endpoint.
-        NewsApiInterface client =  retrofit.create(NewsApiInterface.class);
-
-        // Fetch the JSON response
-        Call<List<NewsApiResponse>> call = client.getJsonStr(data);
 
         // Execute the call asynchronously. Get a positive or negative callback.
-        call.enqueue(new Callback<List<NewsApiResponse>> () {
+        mService.getArticles(src,sort,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
-            public void onResponse(Call<List<NewsApiResponse>> call, Response<List<NewsApiResponse>> response) {
-                // The network call was a success and we got a response
-                // TODO: use the repository list and display it
-                Log.v(LOG_TAG,response.toString());
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+
+                if(response.isSuccessful()){
+                    Log.d(LOG_TAG," : " + response.toString());
+                }
+
             }
 
             @Override
-            public void onFailure(Call<List<NewsApiResponse>> call, Throwable t) {
-                // the network call was a failure
-                // TODO: handle error
-                Log.e(LOG_TAG,t.toString());
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                Log.d(LOG_TAG," ERROR : "+t.toString());
 
             }
         });
 
         return null;
     }
+
 
     void updateDBWithJsonData(String jsonStr){
 
