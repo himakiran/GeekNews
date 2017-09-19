@@ -1,29 +1,35 @@
 package biz.chundi.geeknews;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import biz.chundi.geeknews.TopFragment.OnListFragmentInteractionListener;
+import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
+import static android.media.CamcorderProfile.get;
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link Article} and makes a call to the
+ * specified {@link OnListArticleListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    //private final List<DummyItem> mValues;
+    private List<Article> mArticle;
+    private Context context;
+    private final OnListArticleListener mListener;
 
-    public RecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public RecyclerViewAdapter(Context c, List<Article> items, OnListArticleListener listener) {
+        mArticle = items;
         mListener = listener;
+        context = c;
     }
 
     @Override
@@ -34,10 +40,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.mItem = mArticle.get(position);
+        holder.mTitleView.setText(mArticle.get(position).getTitle());
+        holder.mDescriptionView.setText(mArticle.get(position).getDescription());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onArticleClick(position);
                 }
             }
         });
@@ -53,25 +59,40 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mArticle.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mTitleView;
+        public final TextView mDescriptionView;
+        public Article mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTitleView = (TextView) view.findViewById(R.id.title);
+            mDescriptionView = (TextView) view.findViewById(R.id.description);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mDescriptionView.getText() + "'";
         }
+    }
+
+
+
+    public void updateArticles(List<Article> items) {
+        mArticle = items;
+        notifyDataSetChanged();
+    }
+
+    private  Article getItem(int adapterPosition) {
+        return mArticle.get(adapterPosition);
+    }
+
+    public interface OnListArticleListener {
+        void onArticleClick(long id);
     }
 }

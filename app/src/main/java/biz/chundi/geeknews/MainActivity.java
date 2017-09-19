@@ -20,9 +20,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements TopFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListArticleListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -105,8 +106,10 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onArticleClick(long id) {
 
     }
 
@@ -159,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements TopFragment.OnLis
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-//            return new TopFragment();
+            //            return new TopFragment();
             switch (position) {
                 case 0:
                     return new TopFragment();

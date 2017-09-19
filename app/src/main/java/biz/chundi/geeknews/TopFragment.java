@@ -7,26 +7,44 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import biz.chundi.geeknews.data.model.Article;
+import biz.chundi.geeknews.data.model.ArticleResponse;
+import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.dummy.DummyContent;
 import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
  * interface.
  */
 public class TopFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    public String LOG_TAG = TopFragment.class.getSimpleName();
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private RecyclerViewAdapter.OnListArticleListener mListener;
+    private RecyclerViewAdapter mAdapter;
+    private NewsService mService;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,24 +80,82 @@ public class TopFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
+            mService = Utility.getNewsService();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            mAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Article>(0), new RecyclerViewAdapter.OnListArticleListener() {
+
+                @Override
+                public void onArticleClick(long id){
+
+                }
+            });
+
+            recyclerView.setAdapter(mAdapter);
+            recyclerView.setHasFixedSize(true);
+
+//            mAdapter = mService.getArticles(Utility.getNewsSource(),Utility.getSortOrder(),BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+//                @Override
+//                public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+//
+//                    if(response.isSuccessful()) {
+//                        mAdapter.updateArticles(response.body().getArticles());
+//                        Log.d(LOG_TAG, "Articles loaded from API");
+//                    }else {
+//                        int statusCode  = response.code();
+//                        // handle request errors depending on status code
+//                        Log.d(LOG_TAG," Error : " + statusCode);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ArticleResponse> call, Throwable t) {
+//
+//                    Log.d(LOG_TAG, "error : "+t.toString());
+//
+//                }
+//            });
+            //// TODO: 19/09/17 Replace below with output of Retrofit response
+            //recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            loadArticles();
         }
-        Utility.getJsonFromNewsAPI("wired-de","top");
+
         return view;
     }
 
+    public void loadArticles() {
+        mService.getArticles(Utility.getNewsSource(),Utility.getSortOrder(),BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+            @Override
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+
+                if(response.isSuccessful()) {
+                    mAdapter.updateArticles(response.body().getArticles());
+                    Log.d(LOG_TAG, "Articles loaded from API");
+                }else {
+                    int statusCode  = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+
+                Log.d(LOG_TAG, "error loading from API");
+
+            }
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof RecyclerViewAdapter.OnListArticleListener) {
+            mListener = (RecyclerViewAdapter.OnListArticleListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -102,8 +178,5 @@ public class TopFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
-    }
+
 }

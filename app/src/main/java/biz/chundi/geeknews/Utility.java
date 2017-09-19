@@ -53,31 +53,31 @@ public class Utility {
     public static NewsService getNewsService() {
         return RetrofitClient.getClient(BASE_URL).create(NewsService.class);
     }
-    public static String getJsonFromNewsAPI(String src, String sort){
-
-
-        NewsService mService = getNewsService();
-
-
-        // Execute the call asynchronously. Get a positive or negative callback.
-        mService.getArticles(src,sort,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
-            @Override
-            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-
-                if(response.isSuccessful()){
-                    Log.d(LOG_TAG," : " + response.toString());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                Log.d(LOG_TAG," ERROR : "+t.toString());
-
-            }
-        });
-
-        return null;
-    }
+//    public static String getJsonFromNewsAPI(String src, String sort){
+//
+//
+//        NewsService mService = getNewsService();
+//
+//
+//        // Execute the call asynchronously. Get a positive or negative callback.
+//        mService.getArticles(src,sort,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+//            @Override
+//            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+//
+//                if(response.isSuccessful()){
+//                    Log.d(LOG_TAG," : " + response.body().getArticles().toString());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+//                Log.d(LOG_TAG," ERROR : "+t.toString());
+//
+//            }
+//        });
+//
+//        return null;
+//    }
 
 }

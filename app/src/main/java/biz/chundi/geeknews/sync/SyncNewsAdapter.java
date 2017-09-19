@@ -21,6 +21,7 @@ import static biz.chundi.geeknews.Utility.getNewsService;
 
 /**
  * Created by userhk on 18/09/17.
+ * http://blog.udinic.com/2013/07/24/write-your-own-android-sync-adapter
  */
 
 public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {

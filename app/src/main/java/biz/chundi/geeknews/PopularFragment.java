@@ -10,13 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.dummy.DummyContent;
 import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnListArticleListener}
  * interface.
  */
 public class PopularFragment extends Fragment {
@@ -25,7 +26,7 @@ public class PopularFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private TopFragment.OnListFragmentInteractionListener mListener;
+    private RecyclerViewAdapter.OnListArticleListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,7 +68,7 @@ public class PopularFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            //recyclerView.setAdapter(new RecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }
@@ -76,8 +77,8 @@ public class PopularFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TopFragment.OnListFragmentInteractionListener) {
-            mListener = (TopFragment.OnListFragmentInteractionListener) context;
+        if (context instanceof RecyclerViewAdapter.OnListArticleListener) {
+            mListener = (RecyclerViewAdapter.OnListArticleListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -90,18 +91,5 @@ public class PopularFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
-    }
+
 }
