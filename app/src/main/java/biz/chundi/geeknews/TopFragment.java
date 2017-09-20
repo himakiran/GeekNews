@@ -45,6 +45,7 @@ public class TopFragment extends Fragment {
     private RecyclerViewAdapter.OnListArticleListener mListener;
     private RecyclerViewAdapter mAdapter;
     private NewsService mService;
+    private static final String SORTORDER = "top";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -106,7 +107,7 @@ public class TopFragment extends Fragment {
     }
 
     public void loadArticles() {
-        mService.getArticles(Utility.getNewsSource(),Utility.getSortOrder(),BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+        mService.getArticles(Utility.getNewsSource(),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
 

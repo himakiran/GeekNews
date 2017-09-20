@@ -16,5 +16,8 @@
     <string name="arsSrc">ars-technica</string>
     <string name="engadgetSrc">engadget</string>
     <string name="hackernewsSrc">hacker-news</string>
+    <string name="top">top</string>
+    <string name="poplr">popular</string>
+    <string name="lat">latest</string>
 
 </resources>
