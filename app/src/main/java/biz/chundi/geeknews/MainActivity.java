@@ -25,6 +25,9 @@ import biz.chundi.geeknews.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListArticleListener {
 
+    /*
+    https://learnpainless.com/android/how-to-get-fragment-from-viewpager-android
+     */
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -86,23 +89,35 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         int id = item.getItemId();
         switch (id) {
             case R.id.item1:
-                    Utility.setNewsSource(getString(R.string.wiredSrc));
+                Utility.setNewsSource(getString(R.string.wiredSrc));
+                item.setChecked(true);
+
             case R.id.item2:
                 Utility.setNewsSource(getString(R.string.recodeSrc));
+                item.setChecked(true);
+
             case R.id.item3:
                 Utility.setNewsSource(getString(R.string.arsSrc));
+                item.setChecked(true);
+
             case R.id.item4:
                 Utility.setNewsSource(getString(R.string.engadgetSrc));
+                item.setChecked(true);
+
             case R.id.item5:
                 Utility.setNewsSource(getString(R.string.hackernewsSrc));
+                item.setChecked(true);
+
             default:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
 
 
         }
-
-
-
+        Log.d(LOG_TAG," OPTION SELECTED "+item.toString());
+//        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.container + ":" + 0);
+//        TopFragment topFragment = (TopFragment) page;
+//        topFragment.loadArticles();
+        mViewPager.getAdapter().notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
     }
 

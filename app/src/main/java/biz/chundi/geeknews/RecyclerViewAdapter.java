@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import biz.chundi.geeknews.data.model.Article;
 
@@ -42,6 +45,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mArticle.get(position);
+        if(!(mArticle.get(position).getUrlToImage().equals(null)))
+            Picasso.with(context).load(mArticle.get(position).getUrlToImage()).into(holder.mImageView);
+
+
         holder.mTitleView.setText(mArticle.get(position).getTitle());
         holder.mDescriptionView.setText(mArticle.get(position).getDescription());
 
@@ -67,12 +74,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public final TextView mTitleView;
         public final TextView mDescriptionView;
         public Article mItem;
+        public final ImageView mImageView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTitleView = (TextView) view.findViewById(R.id.title);
             mDescriptionView = (TextView) view.findViewById(R.id.description);
+            mImageView = (ImageView) view.findViewById(R.id.article_image);
         }
 
         @Override
