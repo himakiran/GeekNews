@@ -95,7 +95,7 @@ public class TopFragment extends Fragment {
                 public void onArticleClick(long id){
 
                 }
-            });
+            },0);
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);

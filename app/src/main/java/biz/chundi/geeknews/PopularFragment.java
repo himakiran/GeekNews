@@ -88,7 +88,7 @@ public class PopularFragment extends Fragment {
                 public void onArticleClick(long id){
 
                 }
-            });
+            },2);
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);

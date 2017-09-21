@@ -89,7 +89,7 @@ public class LatestFragment extends Fragment {
                 public void onArticleClick(long id){
 
                 }
-            });
+            },1);
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);

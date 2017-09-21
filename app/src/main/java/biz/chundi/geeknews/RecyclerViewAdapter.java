@@ -28,11 +28,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Article> mArticle;
     private Context context;
     private final OnListArticleListener mListener;
+    private final int fragmentType; //  0-top,1-latest,2-popular
 
-    public RecyclerViewAdapter(Context c, List<Article> items, OnListArticleListener listener) {
+    public RecyclerViewAdapter(Context c, List<Article> items, OnListArticleListener listener, int fragType) {
         mArticle = items;
         mListener = listener;
         context = c;
+        fragmentType = fragType;
     }
 
     @Override
@@ -47,10 +49,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.mItem = mArticle.get(position);
         if(!(mArticle.get(position).getUrlToImage().equals(null)))
             Picasso.with(context).load(mArticle.get(position).getUrlToImage()).into(holder.mImageView);
-
-
+        if(fragmentType == 1)
+        {
+            holder.mPubDateView.setText(mArticle.get(position).getPublishedAt());
+        }
+        else
+        {
+            holder.mDescriptionView.setText(mArticle.get(position).getDescription());
+        }
         holder.mTitleView.setText(mArticle.get(position).getTitle());
-        holder.mDescriptionView.setText(mArticle.get(position).getDescription());
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public final TextView mDescriptionView;
         public Article mItem;
         public final ImageView mImageView;
+        public final TextView mPubDateView;
 
         public ViewHolder(View view) {
             super(view);
@@ -82,6 +91,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mTitleView = (TextView) view.findViewById(R.id.title);
             mDescriptionView = (TextView) view.findViewById(R.id.description);
             mImageView = (ImageView) view.findViewById(R.id.article_image);
+            mPubDateView = (TextView) view.findViewById(R.id.pubDate);
         }
 
         @Override
