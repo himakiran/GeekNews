@@ -1,6 +1,7 @@
 package biz.chundi.geeknews;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +42,8 @@ public class PopularFragment extends Fragment {
     private RecyclerViewAdapter mAdapter;
     private NewsService mService;
     private static final String SORTORDER = "popular";
+
+    SharedPreferences pref ;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -65,6 +68,7 @@ public class PopularFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        pref = getActivity().getPreferences(Context.MODE_PRIVATE);
     }
 
     @Override
@@ -99,7 +103,7 @@ public class PopularFragment extends Fragment {
     }
 
     public void loadArticles() {
-        mService.getArticles(Utility.getNewsSource(),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+        mService.getArticles(pref.getString("NewsSrc","engadget"),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
 

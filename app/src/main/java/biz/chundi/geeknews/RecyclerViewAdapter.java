@@ -47,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mArticle.get(position);
-        if(!(mArticle.get(position).getUrlToImage().equals(null)))
+        if(!(mArticle.get(position).getUrlToImage() == null))
             Picasso.with(context).load(mArticle.get(position).getUrlToImage()).into(holder.mImageView);
         if(fragmentType == 1)
         {

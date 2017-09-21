@@ -1,5 +1,6 @@
 package biz.chundi.geeknews;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.dummy.DummyContent;
 
+import static android.R.id.edit;
+
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListArticleListener {
 
     /*
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public String LOG_TAG = MainActivity.class.getSimpleName();
 
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,36 +93,50 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        pref = getPreferences(MODE_PRIVATE); // 0 - for private mode
+        editor = pref.edit();
         switch (id) {
             case R.id.item1:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
                 item.setChecked(true);
-
+                editor.putString("NewsSrc","wired-de");
+                Log.d(LOG_TAG," SHARED PREF : " + "wired-de");
+                break;
             case R.id.item2:
                 Utility.setNewsSource(getString(R.string.recodeSrc));
                 item.setChecked(true);
-
+                editor.putString("NewsSrc","recode");
+                Log.d(LOG_TAG," SHARED PREF : " + "recode");
+                break;
             case R.id.item3:
                 Utility.setNewsSource(getString(R.string.arsSrc));
                 item.setChecked(true);
-
+                editor.putString("NewsSrc","ars-technica");
+                Log.d(LOG_TAG," SHARED PREF : " + "ars-technica");
+                break;
             case R.id.item4:
                 Utility.setNewsSource(getString(R.string.engadgetSrc));
                 item.setChecked(true);
-
+                editor.putString("NewsSrc","engadget");
+                Log.d(LOG_TAG," SHARED PREF : " + "engadget");
+                break;
             case R.id.item5:
                 Utility.setNewsSource(getString(R.string.hackernewsSrc));
                 item.setChecked(true);
-
+                editor.putString("NewsSrc","hacker-news");
+                Log.d(LOG_TAG," SHARED PREF : " + "hacker-news");
+                break;
             default:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
-
+                editor.putString("NewsSrc","wired.de");
+                Log.d(LOG_TAG," SHARED PREF : " + "wired.de");
+                break;
 
         }
+
+        editor.commit();
         Log.d(LOG_TAG," OPTION SELECTED "+item.toString());
-//        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.container + ":" + 0);
-//        TopFragment topFragment = (TopFragment) page;
-//        topFragment.loadArticles();
+
         mViewPager.getAdapter().notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
     }
@@ -142,8 +162,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
+                // Return a PlaceholderFragment (defined as a static inner class below).
             //            return new TopFragment();
+            Log.d(LOG_TAG,"MainActivity Position : "+position);
             switch (position) {
                 case 0:
                     return new TopFragment();
