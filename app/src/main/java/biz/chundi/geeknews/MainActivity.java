@@ -101,12 +101,44 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        pref = getPreferences(MODE_PRIVATE);
+
+        //Code to remember previously selected tab
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                                               @Override
+                                               public void onTabSelected(TabLayout.Tab tab) {
+                                                   int selTab = tab.getPosition();
+
+                                                   mViewPager.setCurrentItem(selTab);
+                                                   SharedPreferences.Editor editor = pref.edit();
+                                                   editor.putInt("Tab", selTab);
+                                                   editor.apply();
+                                               }
+
+                                               @Override
+                                               public void onTabUnselected(TabLayout.Tab tab) {
+
+                                               }
+
+                                               @Override
+                                               public void onTabReselected(TabLayout.Tab tab) {
+
+                                               }
+                                           });
+
+
+        int selectedTabIndex = pref.getInt("Tab",1);
+        TabLayout.Tab selectedTab = tabLayout.getTabAt(selectedTabIndex);
+        selectedTab.select();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -264,15 +296,19 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                 // Return a PlaceholderFragment (defined as a static inner class below).
             //            return new TopFragment();
             Log.d(LOG_TAG,"MainActivity Position : "+position);
+
             switch (position) {
                 case 0:
                     return new TopFragment();
+
                 case 1:
                     return new LatestFragment();
                 case 2:
                     return new PopularFragment();
+                default:
+                    return new TopFragment();
             }
-            return null;
+
 
         }
 
@@ -285,6 +321,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         @Override
         public CharSequence getPageTitle(int position) {
+
             switch (position) {
                 case 0:
                     return "TOP";
@@ -300,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         public int getItemPosition(Object object) {
             // Causes adapter to reload all Fragments when
             // notifyDataSetChanged is called
-            Log.i("getPageTitle1",00 + "");
+
+            Log.i(LOG_TAG, "Menu selected : "+object.toString());
 
             return POSITION_NONE;
         }
