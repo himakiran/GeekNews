@@ -53,49 +53,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
      */
     private ViewPager mViewPager;
 
-    // Constants
-    // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "biz.chundi.geeknews.data.NewsContentProvider";
-    // An account type, in the form of a domain name
-    public static final String ACCOUNT_TYPE = "geeknews.chundi.biz";
-    // The account name
-    public static final String ACCOUNT = "dummynewsaccount";
-    // Instance fields
-    Account mAccount;
 
-    // Sync interval constants
-    public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
-    public static final long SYNC_INTERVAL =
-            SYNC_INTERVAL_IN_MINUTES *
-                    SECONDS_PER_MINUTE;
-    // Global variables
-    // A content resolver for accessing the provider
-    ContentResolver mResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the dummy account
-        mAccount = CreateSyncAccount(this);
 
-        // Get the content resolver for your app
-        mResolver = getContentResolver();
-        /*
-         * Turn on periodic syncing
-         */
-        ContentResolver.addPeriodicSync(
-                mAccount,
-                AUTHORITY,
-                Bundle.EMPTY,
-                SYNC_INTERVAL);
-
-        ContentResolver.requestSync(mAccount,AUTHORITY,Bundle.EMPTY);
-
-
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -150,41 +116,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         });
 
     }
-
-    /**
-     * Create a new dummy account for the sync adapter
-     *
-     * @param context The application context
-     */
-    public static Account CreateSyncAccount(Context context) {
-        // Create the account type and default account
-        Account newAccount = new Account(
-                ACCOUNT, ACCOUNT_TYPE);
-        // Get an instance of the Android account manager
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call context.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-        } else {
-            /*
-             * The account exists or some other error occurred. Log this, report it,
-             * or handle it internally.
-             */
-        }
-        return newAccount;
-    }
-
-
 
 
     @Override
