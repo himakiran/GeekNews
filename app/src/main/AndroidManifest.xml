@@ -40,11 +40,22 @@
         </service>
 
         <provider
-            android:name=".data.NewsContentProvider"
-            android:authorities="biz.chundi.geeknews"
+            android:name="biz.chundi.geeknews.data.NewsContentProvider"
+            android:authorities="biz.chundi.geeknews.provider"
             android:enabled="true"
             android:exported="false"
             android:syncable="true"/>
+
+        <service
+            android:name="biz.chundi.geeknews.sync.SyncNewsAdapterService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
 
     </application>
 

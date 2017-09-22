@@ -9,11 +9,8 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.List;
-
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.Utility;
-import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
 import retrofit2.Call;
@@ -28,12 +25,12 @@ import static biz.chundi.geeknews.Utility.getNewsService;
  * https://josiassena.com/building-a-sync-adapter-and-using-it-on-android/
  */
 
-public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
+public class SyncNewsAdapterOriginal extends AbstractThreadedSyncAdapter {
 
     ContentResolver mContentResolver;
-    public final String LOG_TAG = SyncNewsAdapter.class.getSimpleName();
+    public final String LOG_TAG = SyncNewsAdapterOriginal.class.getSimpleName();
 
-    public SyncNewsAdapter(Context context, boolean autoInitialize) {
+    public SyncNewsAdapterOriginal(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         /*
          * If your app uses a content resolver, get an instance of it
@@ -47,7 +44,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
      * constructor maintains compatibility with Android 3.0
      * and later platform versions
      */
-    public SyncNewsAdapter(
+    public SyncNewsAdapterOriginal(
             Context context,
             boolean autoInitialize,
             boolean allowParallelSyncs) {
@@ -69,13 +66,13 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
         String newsSource = Utility.getNewsSource();
         String sortOrder = Utility.getSortOrder();
 
-        getArticlesFromNewsAPI(newsSource,sortOrder);
+        String forecastJsonStr = getJsonFromNewsAPI(newsSource,sortOrder);
 
-
+        updateDBWithJsonData(forecastJsonStr);
 
 
     }
-    public Void getArticlesFromNewsAPI(String src, String sort){
+    public String getJsonFromNewsAPI(String src, String sort){
 
         NewsService mService = getNewsService();
 
@@ -87,8 +84,6 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
                 if(response.isSuccessful()){
                     Log.d(LOG_TAG," : " + response.toString());
-                    updateDBWithArticlesData(response.body().getArticles());
-
                 }
 
             }
@@ -104,9 +99,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    void updateDBWithArticlesData(List<Article> articleList){
-
-        Log.d(LOG_TAG,"No of Articles : "+articleList.size());
+    void updateDBWithJsonData(String jsonStr){
 
     }
 }
