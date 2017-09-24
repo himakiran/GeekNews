@@ -4,12 +4,14 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Vector;
 
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.Utility;
@@ -111,6 +113,39 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     void updateDBWithArticlesData(List<Article> articleList){
 
         Log.d(LOG_TAG,"No of Articles : "+articleList.size());
+
+        Vector<ContentValues> cVVector = new Vector<ContentValues>(articleList.size());
+        ContentValues ArticleValues = new ContentValues();
+
+        for(int index=1;index <= articleList.size();index++){
+
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_AUTHOR),articleList.get(index-1).getAuthor());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_TITLE),articleList.get(index-1).getTitle());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_DESC),articleList.get(index-1).getDescription());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URL),articleList.get(index-1).getUrl());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG),articleList.get(index-1).getUrlToImage());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE),articleList.get(index-1).getPublishedAt());
+
+            cVVector.add(ArticleValues);
+        }
+
+        int inserted = 0;
+
+
+
+            if (cVVector.size() > 0) {
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                inserted = getContext().getContentResolver().bulkInsert(NewsContract.NewsArticleEntry.CONTENT_URI, cvArray);
+
+                // To write delete queryto delete records older than 10 days
+                //getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                //notifyWeather(); FOR NOTIFICATIONS
+            }
+
+        Log.d(LOG_TAG," Records Inserted are : "+inserted);
+
+
 
     }
 

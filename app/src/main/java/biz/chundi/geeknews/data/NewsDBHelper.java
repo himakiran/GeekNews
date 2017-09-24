@@ -40,13 +40,13 @@ public class NewsDBHelper extends SQLiteOpenHelper {
     private void addNewsArticleTable(SQLiteDatabase db){
         db.execSQL(
                 "CREATE TABLE " + NewsContract.NewsArticleEntry.TABLE_NAME + " (" +
-                        NewsContract.NewsArticleEntry._ID + " INTEGER PRIMARY KEY, " +
-                        NewsContract.NewsArticleEntry.COLUMN_AUTHOR + " TEXT NOT NULL, " +
-                        NewsContract.NewsArticleEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                        NewsContract.NewsArticleEntry.COLUMN_DESC + " TEXT NOT NULL, " +
-                        NewsContract.NewsArticleEntry.COLUMN_URL + " TEXT NOT NULL, " +
-                        NewsContract.NewsArticleEntry.COLUMN_URLIMG + " TEXT NOT NULL, " +
-                        NewsContract.NewsArticleEntry.COLUMN_PUBDATE + " INTEGER NOT NULL, " + ");"
+                        NewsContract.NewsArticleEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        NewsContract.NewsArticleEntry.COLUMN_AUTHOR + " TEXT , " +
+                        NewsContract.NewsArticleEntry.COLUMN_TITLE + " TEXT , " +
+                        NewsContract.NewsArticleEntry.COLUMN_DESC + " TEXT , " +
+                        NewsContract.NewsArticleEntry.COLUMN_URL + " TEXT , " +
+                        NewsContract.NewsArticleEntry.COLUMN_URLIMG + " TEXT , " +
+                        NewsContract.NewsArticleEntry.COLUMN_PUBDATE + " INTEGER  " + ");"
         );
     }
 
