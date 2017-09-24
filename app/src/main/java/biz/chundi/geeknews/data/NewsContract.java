@@ -62,6 +62,7 @@ public class NewsContract {
         public static final String COLUMN_URL="url";
         public static final String COLUMN_URLIMG="urlImage";
         public static final String COLUMN_PUBDATE="pubDate";
+        public static final String COLUMN_SRC="newsSrc";
 
         // Define a function to build a URI to find a specific movie by it's identifier
         public static Uri buildNewsArticleUri(long id){

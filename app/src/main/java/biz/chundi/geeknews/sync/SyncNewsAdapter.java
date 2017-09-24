@@ -93,7 +93,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
                 if(response.isSuccessful()){
                     Log.d(LOG_TAG," : " + response.toString());
-                    updateDBWithArticlesData(response.body().getArticles());
+                    updateDBWithArticlesData(response.body().getSource(),response.body().getArticles());
 
                 }
 
@@ -110,25 +110,28 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    void updateDBWithArticlesData(List<Article> articleList){
+    void updateDBWithArticlesData(String newsSrc,List<Article> articleList){
 
         Log.d(LOG_TAG,"No of Articles : "+articleList.size());
 
         Vector<ContentValues> cVVector = new Vector<ContentValues>(articleList.size());
-        ContentValues ArticleValues = new ContentValues();
+        ContentValues ArticleValues;
 
-        for(int index=1;index <= articleList.size();index++){
+        for(int index=0;index < articleList.size();index+=1){
 
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_AUTHOR),articleList.get(index-1).getAuthor());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_TITLE),articleList.get(index-1).getTitle());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_DESC),articleList.get(index-1).getDescription());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URL),articleList.get(index-1).getUrl());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG),articleList.get(index-1).getUrlToImage());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE),articleList.get(index-1).getPublishedAt());
+            ArticleValues = new ContentValues();
 
-            cVVector.add(ArticleValues);
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_AUTHOR),articleList.get(index).getAuthor());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_TITLE),articleList.get(index).getTitle());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_DESC),articleList.get(index).getDescription());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URL),articleList.get(index).getUrl());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG),articleList.get(index).getUrlToImage());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE),articleList.get(index).getPublishedAt());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SRC),newsSrc);
+
+            cVVector.add(index,ArticleValues);
         }
-
+        Log.d(LOG_TAG," cVVector is : "+cVVector.toString());
         int inserted = 0;
 
 
