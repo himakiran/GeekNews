@@ -10,7 +10,7 @@
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
     <string name="sync_account_type">geeknews.chundi.biz</string>
-    <string name="content_authority">biz.chundi.geeknews.sync</string>
+    <string name="content_authority">biz.chundi.geeknews</string>
     <string name="wiredSrc">wired.de</string>
     <string name="recodeSrc">recode</string>
     <string name="arsSrc">ars-technica</string>

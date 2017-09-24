@@ -13,6 +13,7 @@ import java.util.List;
 
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.Utility;
+import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
@@ -31,7 +32,7 @@ import static biz.chundi.geeknews.Utility.getNewsService;
 public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
     ContentResolver mContentResolver;
-    public final String LOG_TAG = SyncNewsAdapter.class.getSimpleName();
+    public final static String LOG_TAG = SyncNewsAdapter.class.getSimpleName();
 
     public SyncNewsAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -40,6 +41,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
          * from the incoming Context
          */
         mContentResolver = context.getContentResolver();
+        Log.d(LOG_TAG, "SyncNewsAdapterCalled");
     }
 
     /**
@@ -77,6 +79,8 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
     public Void getArticlesFromNewsAPI(String src, String sort){
 
+        Log.d(LOG_TAG, "getArticlesFromeNewsApi");
+
         NewsService mService = getNewsService();
 
 
@@ -108,5 +112,17 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
         Log.d(LOG_TAG,"No of Articles : "+articleList.size());
 
+    }
+
+    /**
+     * Manual force Android to perform a sync with our SyncAdapter.
+     */
+    public static void performSync() {
+        Log.d(LOG_TAG, " perform Sync ");
+        Bundle b = new Bundle();
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(NewsAccount.getAccount(),
+                NewsContract.CONTENT_AUTHORITY, b);
     }
 }
