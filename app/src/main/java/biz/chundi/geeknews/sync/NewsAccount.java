@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import biz.chundi.geeknews.R;
@@ -24,6 +25,8 @@ public final class NewsAccount {
      * This is the name that appears in the Android 'Accounts' settings.
      */
     private static final String ACCOUNT_NAME = "GeekNews Sync";
+
+    SharedPreferences pref;
 
 
     /**
@@ -62,11 +65,13 @@ public final class NewsAccount {
             ContentResolver.addPeriodicSync(account, AUTHORITY, new Bundle(), SYNC_FREQUENCY);
 
             created = true;
+
+
         }
 
         // Force a sync if the account was just created
         if (created) {
-            SyncNewsAdapter.performSync();
+            SyncNewsAdapter.performSync("engadget","top");
         }
     }
 }

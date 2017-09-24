@@ -6,12 +6,14 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.prefs.Preferences;
 
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.Utility;
@@ -36,6 +38,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     ContentResolver mContentResolver;
     public final static String LOG_TAG = SyncNewsAdapter.class.getSimpleName();
 
+
     public SyncNewsAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         /*
@@ -43,6 +46,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
          * from the incoming Context
          */
         mContentResolver = context.getContentResolver();
+
         Log.d(LOG_TAG, "SyncNewsAdapterCalled");
     }
 
@@ -70,8 +74,8 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
                               SyncResult syncResult) {
         Log.d(LOG_TAG, "onPerformSync Called.");
 
-        String newsSource = Utility.getNewsSource();
-        String sortOrder = Utility.getSortOrder();
+        String newsSource = bundle.getString("newsSrc","engadget");
+        String sortOrder = bundle.getString("sortOrder","top");
 
         getArticlesFromNewsAPI(newsSource,sortOrder);
 
@@ -155,11 +159,13 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Manual force Android to perform a sync with our SyncAdapter.
      */
-    public static void performSync() {
+    public static void performSync(String src, String sortOrder) {
         Log.d(LOG_TAG, " perform Sync ");
         Bundle b = new Bundle();
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        b.putString("newsSrc",src);
+        b.putString("sortOrder",sortOrder);
         ContentResolver.requestSync(NewsAccount.getAccount(),
                 NewsContract.CONTENT_AUTHORITY, b);
     }

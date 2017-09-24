@@ -8,12 +8,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import static android.media.tv.TvContract.Programs.Genres.NEWS;
 import static android.provider.MediaStore.Audio.Genres.Members.GENRE_ID;
 
 public class NewsContentProvider extends ContentProvider {
 
     private static final int NEWSARTICLE = 100;
     private static final int NEWSARTICLE_ID = 101;
+    private static final int NEWSSRC = 102;
 
     private NewsDBHelper mNewsDBHelper;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -49,6 +51,8 @@ public class NewsContentProvider extends ContentProvider {
                 return NewsContract.NewsArticleEntry.CONTENT_TYPE;
             case NEWSARTICLE_ID:
                 return NewsContract.NewsArticleEntry.CONTENT_ITEM_TYPE;
+            case NEWSSRC:
+                return NewsContract.NewsArticleEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

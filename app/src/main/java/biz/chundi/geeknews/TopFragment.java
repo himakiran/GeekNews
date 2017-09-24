@@ -129,7 +129,7 @@ public class TopFragment extends Fragment {
     }
 
     public void loadArticles() {
-        setUpContentSync();
+        setUpContentSync(pref.getString("NewsSrc","engadget"),SORTORDER);
         Log.d(LOG_TAG,"LoadArticles : "+pref.getString("NewsSrc","engadget"));
         mService.getArticles(pref.getString("NewsSrc","engadget"),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
@@ -172,12 +172,12 @@ public class TopFragment extends Fragment {
     }
 
 
-    public void setUpContentSync(){
+    public void setUpContentSync(String src, String sort){
 
         Log.d(LOG_TAG," setUpContentSync ");
 
         NewsAccount.createSyncAccount(getContext());
-        SyncNewsAdapter.performSync();
+        SyncNewsAdapter.performSync(src,sort);
 
 
 
