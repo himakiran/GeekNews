@@ -224,8 +224,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-                // Return a PlaceholderFragment (defined as a static inner class below).
-            //            return new TopFragment();
+
             Log.d(LOG_TAG,"MainActivity Position : "+position);
 
             switch (position) {

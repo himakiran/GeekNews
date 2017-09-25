@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import static android.media.tv.TvContract.Programs.Genres.NEWS;
 import static android.provider.MediaStore.Audio.Genres.Members.GENRE_ID;
@@ -16,6 +17,8 @@ public class NewsContentProvider extends ContentProvider {
     private static final int NEWSARTICLE = 100;
     private static final int NEWSARTICLE_ID = 101;
     private static final int NEWSSRC = 102;
+
+    public static final String LOG_TAG  = NewsContentProvider.class.getSimpleName();
 
     private NewsDBHelper mNewsDBHelper;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -109,6 +112,7 @@ public class NewsContentProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+
                 break;
             case NEWSARTICLE_ID:
                 long _id = ContentUris.parseId(uri);
