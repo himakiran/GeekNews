@@ -97,7 +97,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
                 if(response.isSuccessful()){
                     Log.d(LOG_TAG," : " + response.toString());
-                    updateDBWithArticlesData(response.body().getSource(),response.body().getArticles());
+                    updateDBWithArticlesData(response.body().getSource(),response.body().getSortBy(),response.body().getArticles());
 
                 }
 
@@ -114,7 +114,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    void updateDBWithArticlesData(String newsSrc,List<Article> articleList){
+    void updateDBWithArticlesData(String newsSrc,String sortOrder, List<Article> articleList){
 
         Log.d(LOG_TAG,"No of Articles : "+articleList.size());
 
@@ -132,6 +132,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
             ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG),articleList.get(index).getUrlToImage());
             ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE),articleList.get(index).getPublishedAt());
             ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SRC),newsSrc);
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SORTORDER),sortOrder);
 
             cVVector.add(index,ArticleValues);
         }

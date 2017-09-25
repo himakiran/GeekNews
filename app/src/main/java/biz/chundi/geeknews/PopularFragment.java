@@ -2,6 +2,8 @@ package biz.chundi.geeknews;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -96,8 +99,20 @@ public class PopularFragment extends Fragment {
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);
-            // Below function launches the Retrofit to get JSON response
-            loadArticles();
+            ConnectivityManager cm =
+                    (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+            if(isConnected) {
+                // Below function launches the Retrofit to get JSON response
+                loadArticles();
+            }
+            else
+            {
+                Toast.makeText(context, " Internet not available ", Toast.LENGTH_LONG).show();
+            }
         }
         return view;
     }

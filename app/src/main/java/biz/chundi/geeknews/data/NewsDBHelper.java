@@ -47,7 +47,8 @@ public class NewsDBHelper extends SQLiteOpenHelper {
                         NewsContract.NewsArticleEntry.COLUMN_URL + " TEXT , " +
                         NewsContract.NewsArticleEntry.COLUMN_URLIMG + " TEXT , " +
                         NewsContract.NewsArticleEntry.COLUMN_PUBDATE + " INTEGER,  " +
-                        NewsContract.NewsArticleEntry.COLUMN_SRC + " TEXT  " + ");"
+                        NewsContract.NewsArticleEntry.COLUMN_SRC + " TEXT,  " +
+                        NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " TEXT  " + ");"
         );
     }
 

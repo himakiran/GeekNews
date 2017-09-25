@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
 
+import static android.R.attr.id;
 
 
 /**
@@ -63,14 +64,19 @@ public class NewsContract {
         public static final String COLUMN_URLIMG="urlImage";
         public static final String COLUMN_PUBDATE="pubDate";
         public static final String COLUMN_SRC="newsSrc";
+        public static final String COLUMN_SORTORDER="sortOrder";
 
-        // Define a function to build a URI to find a specific movie by it's identifier
+        // Define a function to build a URI to find a specific ARTICLE by it's identifier
         public static Uri buildNewsArticleUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        // Define a function to build a URI to return articles
+        public static Uri buildNewsArticleSUri() {
+            return CONTENT_URI;
 
 
+        }
 
     }
 

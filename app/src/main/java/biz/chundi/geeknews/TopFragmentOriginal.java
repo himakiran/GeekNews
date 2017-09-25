@@ -1,9 +1,8 @@
 package biz.chundi.geeknews;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,20 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
-import biz.chundi.geeknews.dummy.DummyContent;
-import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
+import biz.chundi.geeknews.sync.NewsAccount;
+import biz.chundi.geeknews.sync.SyncNewsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static biz.chundi.geeknews.Utility.LOG_TAG;
 
 /**
  * A fragment representing a list of Items.
@@ -34,31 +31,41 @@ import static biz.chundi.geeknews.Utility.LOG_TAG;
  * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
  * interface.
  */
-public class LatestFragment extends Fragment {
+public class TopFragmentOriginal extends Fragment {
 
-    // TODO: Customize parameter argument names
+
     private static final String ARG_COLUMN_COUNT = "column-count";
-    public String LOG_TAG = LatestFragment.class.getSimpleName();
-    // TODO: Customize parameters
+    public String LOG_TAG = TopFragmentOriginal.class.getSimpleName();
+
     private int mColumnCount = 1;
     private RecyclerViewAdapter.OnListArticleListener mListener;
     private RecyclerViewAdapter mAdapter;
     private NewsService mService;
-    private static final String SORTORDER = "latest";
-    public String PREF  = "ArticlePref";
+    private static final String SORTORDER = "top";
+
     SharedPreferences pref ;
+
+    // Constants
+    // The authority for the sync adapter's content provider
+    public String AUTHORITY = "biz.chundi.geeknews.data.NewsContentProvider";
+    // An account type, in the form of a domain name
+    public String ACCOUNT_TYPE = "geeknews.chundi.biz";
+    // The account name
+    public String ACCOUNT = "dummynewsaccount";
+    // Instance fields
+    public Account mAccount;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public LatestFragment() {
+    public TopFragmentOriginal() {
     }
 
-    // TODO: Customize parameter initialization
+
     @SuppressWarnings("unused")
-    public static LatestFragment newInstance(int columnCount) {
-        LatestFragment fragment = new LatestFragment();
+    public static TopFragmentOriginal newInstance(int columnCount) {
+        TopFragmentOriginal fragment = new TopFragmentOriginal();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -78,7 +85,7 @@ public class LatestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_latest_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_top_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -90,35 +97,27 @@ public class LatestFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
             mAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Article>(), new RecyclerViewAdapter.OnListArticleListener() {
 
                 @Override
                 public void onArticleClick(long id){
 
                 }
-            },1);
+            },0);
 
             recyclerView.setAdapter(mAdapter);
             recyclerView.setHasFixedSize(true);
-            ConnectivityManager cm =
-                    (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            boolean isConnected = activeNetwork != null &&
-                    activeNetwork.isConnectedOrConnecting();
-            if(isConnected) {
-                // Below function launches the Retrofit to get JSON response
-                loadArticles();
-            }
-            else
-            {
-                Toast.makeText(context, " Internet not available ", Toast.LENGTH_LONG).show();
-            }
+            // Below function launches the Retrofit to get JSON response
+            loadArticles();
         }
+
         return view;
     }
 
     public void loadArticles() {
+        setUpContentSync(pref.getString("NewsSrc","engadget"),SORTORDER);
+        Log.d(LOG_TAG,"LoadArticles : "+pref.getString("NewsSrc","engadget"));
         mService.getArticles(pref.getString("NewsSrc","engadget"),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
@@ -158,6 +157,24 @@ public class LatestFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+    public void setUpContentSync(String src, String sort){
+
+        Log.d(LOG_TAG," setUpContentSync ");
+
+        NewsAccount.createSyncAccount(getContext());
+        SyncNewsAdapter.performSync(src,sort);
+
+
+
+
+    }
+
+
+
+
+
 
 
 }
