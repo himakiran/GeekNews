@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import biz.chundi.geeknews.data.NewsContract;
+import biz.chundi.geeknews.data.NewsDBHelper;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
@@ -168,7 +169,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     public void loadArticles() {
         setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
-
+        getLoaderManager().restartLoader(101,null,this);
         Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
@@ -238,6 +239,11 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     }
 
     public void refreshView(){
+
+        Cursor c = mNewsCursorAdapter.getCursor();
+
+        ListView  view = (ListView) getView();
+
 
 
     }

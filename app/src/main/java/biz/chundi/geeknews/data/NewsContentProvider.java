@@ -86,7 +86,7 @@ public class NewsContentProvider extends ContentProvider {
 
         // Use this on the URI passed into the function to notify any observers that the uri has
         // changed.
-        getContext().getContentResolver().notifyChange(uri, null);
+        getContext().getContentResolver().notifyChange(uri, null,true);
         return returnUri;
     }
 
@@ -132,6 +132,7 @@ public class NewsContentProvider extends ContentProvider {
         }
 
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return retCursor;
 
     }
@@ -154,7 +155,7 @@ public class NewsContentProvider extends ContentProvider {
         if(rows != 0){
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
+        getContext().getContentResolver().notifyChange(uri, null,true);
         return rows;
 
     }

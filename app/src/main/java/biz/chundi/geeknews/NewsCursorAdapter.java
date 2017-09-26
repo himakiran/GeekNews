@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 
 /**
  * Created by userhk on 25/09/17.
@@ -115,6 +117,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
 
         }
     }
+
 
 
     }

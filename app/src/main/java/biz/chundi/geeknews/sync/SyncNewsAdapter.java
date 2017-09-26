@@ -16,6 +16,7 @@ import java.util.Vector;
 import java.util.prefs.Preferences;
 
 import biz.chundi.geeknews.BuildConfig;
+import biz.chundi.geeknews.NewsCursorAdapter;
 import biz.chundi.geeknews.Utility;
 import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.model.Article;
@@ -169,5 +170,6 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
         b.putString("sortOrder",sortOrder);
         ContentResolver.requestSync(NewsAccount.getAccount(),
                 NewsContract.CONTENT_AUTHORITY, b);
+
     }
 }
