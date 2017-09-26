@@ -14,10 +14,13 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import biz.chundi.geeknews.data.NewsContract;
@@ -108,6 +111,11 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         if (view instanceof ListView) {
 
             ListView lView = (ListView) view;
+            ProgressBar progressBar = new ProgressBar(getContext());
+            progressBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+            progressBar.setIndeterminate(true);
+           lView.setEmptyView(progressBar);
             lView.setAdapter(mNewsCursorAdapter);
 /*
         To code later
@@ -160,6 +168,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     public void loadArticles() {
         setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+
         Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
@@ -228,5 +237,8 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     }
 
+    public void refreshView(){
 
+
+    }
 }

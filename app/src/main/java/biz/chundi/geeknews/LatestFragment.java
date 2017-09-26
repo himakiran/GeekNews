@@ -125,18 +125,18 @@ public class LatestFragment extends Fragment {
 
                 if(response.isSuccessful()) {
                     mAdapter.updateArticles(response.body().getArticles());
-                    Log.d(LOG_TAG, "Articles loaded from NEWS API : "+ response.body().getArticles().toString());
+                   // Log.d(LOG_TAG, "Articles loaded from NEWS API : "+ response.body().getArticles().toString());
                 }else {
                     int statusCode  = response.code();
                     // handle request errors depending on status code
-                    Log.d(LOG_TAG, " Error "+statusCode);
+                   // Log.d(LOG_TAG, " Error "+statusCode);
                 }
             }
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
 
-                Log.d(LOG_TAG, " Error  "+t.toString());
+               // Log.d(LOG_TAG, " Error  "+t.toString());
 
             }
         });
