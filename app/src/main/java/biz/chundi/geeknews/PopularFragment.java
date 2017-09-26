@@ -41,10 +41,8 @@ import retrofit2.Response;
 import static biz.chundi.geeknews.Utility.LOG_TAG;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
- * interface.
+ * A fragment representing a list of Popular Articles
+ *
  */
 public class PopularFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
     static final int COL_TABLE_NAME = 0;
@@ -76,8 +74,6 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     public String LOG_TAG = PopularFragment.class.getSimpleName();
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private RecyclerViewAdapter.OnListArticleListener mListener;
-    private RecyclerViewAdapter mAdapter;
     private NewsService mService;
     private static final String SORTORDER = "popular";
     private NewsCursorAdapter mNewsCursorAdapter;

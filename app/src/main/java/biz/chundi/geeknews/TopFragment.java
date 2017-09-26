@@ -1,6 +1,7 @@
 package biz.chundi.geeknews;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,10 +29,8 @@ import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
- * interface.
+ * A fragment representing a list of Top Articles.
+ *
  */
 public class TopFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -118,29 +118,30 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 /*
         To code later
  */
-//            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                    // CursorAdapter returns a cursor at the correct position for getItem(), or null
-//                    // if it cannot seek to that position.
-//                    Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-//                    Log.v("CHK-FORECASTFRAGMENT", cursor.getString(1));
-//
-//
-//                    if (cursor != null) {
-//                        String locationSetting = Utility.getPreferredLocation(getActivity());
-//                        ((Callback) getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                locationSetting, cursor.getLong(COL_WEATHER_DATE)
-//                        ));
-//
-//
-//                    }
-//                    // save the selected position.
-//                    mpos = position;
-//
-//                }
-//            });
+            lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                    // if it cannot seek to that position.
+                    Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                    Log.v("TopFragment Listener", cursor.getColumnNames().toString());
+                    Log.v("TopFragment Listener", cursor.getString(1));
+
+
+                    if (cursor != null) {
+
+                        Intent intent = new Intent(getContext(),DetailActivity.class);
+
+                        startActivity(intent);
+
+
+                    }
+                    // save the selected position.
+                    mpos = position;
+
+                }
+            });
             if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
                 // The listview probably hasn't even been populated yet.  Actually perform the
                 // swapout in onLoadFinished.

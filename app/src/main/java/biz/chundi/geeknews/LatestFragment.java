@@ -37,10 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
- * interface.
+ * A fragment representing a list of Latest Articles
+ *
  */
 public class LatestFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -72,8 +70,6 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
     public String LOG_TAG = LatestFragment.class.getSimpleName();
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private RecyclerViewAdapter.OnListArticleListener mListener;
-    private RecyclerViewAdapter mAdapter;
     private NewsService mService;
     private static final String SORTORDER = "latest";
     public String PREF  = "ArticlePref";
