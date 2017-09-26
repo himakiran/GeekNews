@@ -71,14 +71,14 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
             vh.description.setText(cursor.getString(TopFragment.COL_DESC));
         }
         else if(viewType == VIEW_TYPE_LATEST) {
-            Picasso.with(context).load(cursor.getString(TopFragment.COL_URLIMG)).into(vh.imgView);
-            vh.title.setText(cursor.getString(TopFragment.COL_TITLE));
-            vh.pubDate.setText(cursor.getString(TopFragment.COL_TITLE));
+            Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
+            vh.title.setText(cursor.getString(LatestFragment.COL_TITLE));
+            vh.pubDate.setText(cursor.getString(LatestFragment.COL_TITLE));
         }
 
         else if(viewType == VIEW_TYPE_POPULAR) {
-            vh.title.setText(cursor.getString(TopFragment.COL_TITLE));
-            vh.description.setText(cursor.getString(TopFragment.COL_DESC));
+            vh.title.setText(cursor.getString(PopularFragment.COL_TITLE));
+            vh.description.setText(cursor.getString(PopularFragment.COL_DESC));
         }
 
     }

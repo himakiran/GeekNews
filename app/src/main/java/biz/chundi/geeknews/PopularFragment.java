@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
@@ -35,6 +36,29 @@ import static biz.chundi.geeknews.Utility.LOG_TAG;
  * interface.
  */
 public class PopularFragment extends Fragment {
+    static final int COL_TABLE_NAME = 0;
+    static final int COL_AUTHOR = 1;
+    static final int COL_TITLE = 2;
+    static final int COL_DESC = 3;
+    static final int COL_URL = 4;
+    static final int COL_URLIMG = 5;
+    static final int COL_PUBDATE = 6;
+    static final int COL_SRC = 7;
+    static final int COL_SORTORDER = 8;
+    private static final int NEWS_LOADER = 101;
+    private static final String[] NEWS_ARTICLE_COLUMNS = {
+
+
+            NewsContract.NewsArticleEntry.TABLE_NAME + "." + NewsContract.NewsArticleEntry._ID,
+            NewsContract.NewsArticleEntry.COLUMN_AUTHOR,
+            NewsContract.NewsArticleEntry.COLUMN_TITLE,
+            NewsContract.NewsArticleEntry.COLUMN_DESC,
+            NewsContract.NewsArticleEntry.COLUMN_URL,
+            NewsContract.NewsArticleEntry.COLUMN_URLIMG,
+            NewsContract.NewsArticleEntry.COLUMN_PUBDATE,
+            NewsContract.NewsArticleEntry.COLUMN_SRC,
+            NewsContract.NewsArticleEntry.COLUMN_SORTORDER
+    };
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";

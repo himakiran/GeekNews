@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity  {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
-            //Log.d(LOG_TAG,"MainActivity Position : "+position);
+            Log.d(LOG_TAG,"MainActivity Position : "+position);
 
             switch (position) {
                 case 0:
@@ -232,9 +232,9 @@ public class MainActivity extends AppCompatActivity  {
                     return new LatestFragment();
                 case 2:
                     return new PopularFragment();
-                default:
-                    return new TopFragment();
+
             }
+            return null;
 
 
         }

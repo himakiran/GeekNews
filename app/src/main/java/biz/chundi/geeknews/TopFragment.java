@@ -11,8 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import biz.chundi.geeknews.data.NewsContract;
-import biz.chundi.geeknews.data.NewsDBHelper;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
@@ -116,7 +113,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
             progressBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
             progressBar.setIndeterminate(true);
-           lView.setEmptyView(progressBar);
+            lView.setEmptyView(progressBar);
             lView.setAdapter(mNewsCursorAdapter);
 /*
         To code later
@@ -169,7 +166,10 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     public void loadArticles() {
         setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
-        getLoaderManager().restartLoader(101,null,this);
+        /*
+            https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
+         */
+        getLoaderManager().restartLoader(101, null, this);
         Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
@@ -196,7 +196,6 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         SyncNewsAdapter.performSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
 
     }
-
 
 
     public void setUpContentSync(String src, String sort) {
@@ -238,13 +237,5 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     }
 
-    public void refreshView(){
 
-        Cursor c = mNewsCursorAdapter.getCursor();
-
-        ListView  view = (ListView) getView();
-
-
-
-    }
 }
