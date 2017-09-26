@@ -73,7 +73,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
         else if(viewType == VIEW_TYPE_LATEST) {
             Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
             vh.title.setText(cursor.getString(LatestFragment.COL_TITLE));
-            vh.pubDate.setText(cursor.getString(LatestFragment.COL_TITLE));
+            vh.pubDate.setText(cursor.getString(LatestFragment.COL_PUBDATE));
         }
 
         else if(viewType == VIEW_TYPE_POPULAR) {
