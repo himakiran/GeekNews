@@ -30,7 +30,7 @@ import biz.chundi.geeknews.dummy.DummyContent;
 
 import static android.R.id.edit;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListArticleListener {
+public class MainActivity extends AppCompatActivity  {
 
     /*
     https://learnpainless.com/android/how-to-get-fragment-from-viewpager-android
@@ -205,10 +205,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
 
 
-    @Override
-    public void onArticleClick(long id) {
 
-    }
 
 
     /**
@@ -265,8 +262,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         @Override
         public int getItemPosition(Object object) {
-            // Causes adapter to reload all Fragments when
-            // notifyDataSetChanged is called
 
             Log.i(LOG_TAG, "Menu selected : "+object.toString());
 

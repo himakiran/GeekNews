@@ -142,22 +142,6 @@ public class LatestFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof RecyclerViewAdapter.OnListArticleListener) {
-            mListener = (RecyclerViewAdapter.OnListArticleListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
+//
 
 }

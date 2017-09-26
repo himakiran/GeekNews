@@ -1,6 +1,5 @@
 package biz.chundi.geeknews;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -8,36 +7,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import biz.chundi.geeknews.data.NewsContract;
-import biz.chundi.geeknews.data.model.Article;
-import biz.chundi.geeknews.data.model.ArticleResponse;
-import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.R.attr.duration;
-import static biz.chundi.geeknews.data.NewsContract.NewsArticleEntry.COLUMN_SORTORDER;
 
 
 /**
@@ -46,19 +31,8 @@ import static biz.chundi.geeknews.data.NewsContract.NewsArticleEntry.COLUMN_SORT
  * Activities containing this fragment MUST implement the {@link RecyclerViewAdapter.OnListArticleListener}
  * interface.
  */
-public class TopFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class TopFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    public String LOG_TAG = TopFragment.class.getSimpleName();
-
-    private int mColumnCount = 1;
-    private RecyclerViewAdapter.OnListArticleListener mListener;
-    private RecyclerViewAdapter mAdapter;
-    private NewsService mService;
-    private int mpos = ListView.INVALID_POSITION;
-    private static final String SORTORDER = "top";
-    private static final int NEWS_LOADER = 101;
 
     static final int COL_TABLE_NAME = 0;
     static final int COL_AUTHOR = 1;
@@ -69,7 +43,9 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     static final int COL_PUBDATE = 6;
     static final int COL_SRC = 7;
     static final int COL_SORTORDER = 8;
-
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String SORTORDER = "top";
+    private static final int NEWS_LOADER = 101;
     private static final String[] NEWS_ARTICLE_COLUMNS = {
 
 
@@ -83,19 +59,12 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
             NewsContract.NewsArticleEntry.COLUMN_SRC,
             NewsContract.NewsArticleEntry.COLUMN_SORTORDER
     };
+    public String LOG_TAG = TopFragment.class.getSimpleName();
 
+    SharedPreferences pref;
+    private int mColumnCount = 1;
+    private int mpos = ListView.INVALID_POSITION;
     private NewsCursorAdapter mNewsCursorAdapter;
-    SharedPreferences pref ;
-
-    // Constants
-    // The authority for the sync adapter's content provider
-    public String AUTHORITY = "biz.chundi.geeknews.data.NewsContentProvider";
-    // An account type, in the form of a domain name
-    public String ACCOUNT_TYPE = "geeknews.chundi.biz";
-    // The account name
-    public String ACCOUNT = "dummynewsaccount";
-    // Instance fields
-    public Account mAccount;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -121,10 +90,10 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        String[] from = {NewsContract.NewsArticleEntry.COLUMN_TITLE,NewsContract.NewsArticleEntry.COLUMN_DESC,
-                NewsContract.NewsArticleEntry.COLUMN_URLIMG,NewsContract.NewsArticleEntry.COLUMN_PUBDATE,};
-        int[] to = {R.id.title,R.id.description,R.id.article_image,R.id.pubDate};
-        mNewsCursorAdapter = new NewsCursorAdapter(getContext(),0,null,from,to,0);
+        String[] from = {NewsContract.NewsArticleEntry.COLUMN_TITLE, NewsContract.NewsArticleEntry.COLUMN_DESC,
+                NewsContract.NewsArticleEntry.COLUMN_URLIMG, NewsContract.NewsArticleEntry.COLUMN_PUBDATE,};
+        int[] to = {R.id.title, R.id.description, R.id.article_image, R.id.pubDate};
+        mNewsCursorAdapter = new NewsCursorAdapter(getContext(), 0, null, from, to, 0);
         pref = getActivity().getPreferences(Context.MODE_PRIVATE);
         getLoaderManager().initLoader(NEWS_LOADER, null, this);
     }
@@ -133,7 +102,6 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_list, container, false);
-
 
 
         // Set the adapter
@@ -167,24 +135,22 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 //
 //                }
 //            });
-//            if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
-//                // The listview probably hasn't even been populated yet.  Actually perform the
-//                // swapout in onLoadFinished.
-//                mpos = savedInstanceState.getInt("select-pos");
-//            }
+            if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
+                // The listview probably hasn't even been populated yet.  Actually perform the
+                // swapout in onLoadFinished.
+                mpos = savedInstanceState.getInt("select-pos");
+            }
 
 
-            ConnectivityManager cm = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
-            if(isConnected) {
+            if (isConnected) {
                 // Below function launches the Retrofit to get JSON response
                 loadArticles();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), " Internet not available ", Toast.LENGTH_LONG).show();
             }
         }
@@ -193,41 +159,20 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     }
 
     public void loadArticles() {
-        setUpContentSync(pref.getString("NewsSrc","engadget"),SORTORDER);
-        Log.d(LOG_TAG,"LoadArticles : "+pref.getString("NewsSrc","engadget"));
-//        mService.getArticles(pref.getString("NewsSrc","engadget"),SORTORDER,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
-//            @Override
-//            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-//
-//                if(response.isSuccessful()) {
-//                    mAdapter.updateArticles(response.body().getArticles());
-//                    Log.d(LOG_TAG, "Articles loaded from NEWS API : "+ response.body().getArticles().toString());
-//                }else {
-//                    int statusCode  = response.code();
-//                    // handle request errors depending on status code
-//                    Log.d(LOG_TAG, " Error "+statusCode);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleResponse> call, Throwable t) {
-//
-//                Log.d(LOG_TAG, " Error  "+t.toString());
-//
-//            }
-//        });
+        setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        // When tablets rotate, the currently selected list item needs to be saved.
-//        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
-//        // so check for that before storing.
-//        if (mpos != ListView.INVALID_POSITION) {
-//            outState.putInt("select-pos", mpos);
-//        }
-//        super.onSaveInstanceState(outState);
-//    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // When tablets rotate, the currently selected list item needs to be saved.
+        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+        // so check for that before storing.
+        if (mpos != ListView.INVALID_POSITION) {
+            outState.putInt("select-pos", mpos);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -238,34 +183,18 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onStart() {
         super.onStart();
-        SyncNewsAdapter.performSync(pref.getString("NewsSrc","engadget"),SORTORDER);
+        SyncNewsAdapter.performSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof RecyclerViewAdapter.OnListArticleListener) {
-            mListener = (RecyclerViewAdapter.OnListArticleListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
-    public void setUpContentSync(String src, String sort){
+    public void setUpContentSync(String src, String sort) {
 
-        Log.d(LOG_TAG," setUpContentSync ");
+        Log.d(LOG_TAG, " setUpContentSync ");
 
         NewsAccount.createSyncAccount(getContext());
-        SyncNewsAdapter.performSync(src,sort);
+        SyncNewsAdapter.performSync(src, sort);
 
     }
 
@@ -276,9 +205,8 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         Uri NewsArticlesUri = NewsContract.NewsArticleEntry.buildNewsArticleSUri();
         // This is the select criteria ie get all articles from the selected src and whose sortorder is top
         final String SELECTION = "((" +
-                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc","engadget") + "') AND (" +
+                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc", "engadget") + "') AND (" +
                 NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " == '" + SORTORDER + "' ))";
-
 
 
         return new CursorLoader(this.getContext(), NewsArticlesUri, NEWS_ARTICLE_COLUMNS, SELECTION, null, null);
@@ -299,4 +227,6 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         mNewsCursorAdapter.swapCursor(null);
 
     }
+
+
 }
