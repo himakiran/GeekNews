@@ -1,6 +1,7 @@
 package biz.chundi.geeknews;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -97,7 +102,7 @@ public class DetailActivity extends AppCompatActivity {
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
+        mContentView = findViewById(R.id.article_image);
 
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -111,7 +116,20 @@ public class DetailActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+       //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+
+        // Retrieve data from intent extras
+        Intent intent = this.getIntent();
+        String url_image = intent.getStringExtra("image_url");
+        String title = intent.getStringExtra("title");
+        String article_url = intent.getStringExtra("article_url");
+        ImageView imageView = (ImageView) findViewById(R.id.article_image);
+        TextView textView = (TextView)findViewById(R.id.title);
+        TextView textView1 = (TextView)findViewById(R.id.fulltext_content);
+        Picasso.with(getApplicationContext()).load(url_image).into(imageView);
+        textView.setText(title);
+        textView1.setText("Long Article");
     }
 
     @Override

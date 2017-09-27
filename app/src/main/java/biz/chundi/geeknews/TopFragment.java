@@ -125,13 +125,17 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                     // CursorAdapter returns a cursor at the correct position for getItem(), or null
                     // if it cannot seek to that position.
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                    Log.v("TopFragment Listener", cursor.getColumnNames().toString());
-                    Log.v("TopFragment Listener", cursor.getString(1));
+                    Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
+
 
 
                     if (cursor != null) {
 
                         Intent intent = new Intent(getContext(),DetailActivity.class);
+                        intent.putExtra("image_url",cursor.getString(5));
+                        intent.putExtra("title",cursor.getString(2));
+                        intent.putExtra("article_url",cursor.getString(4));
+                        Log.d("Top Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);
 
