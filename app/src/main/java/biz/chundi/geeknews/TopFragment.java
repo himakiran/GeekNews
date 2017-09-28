@@ -135,6 +135,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                         intent.putExtra("image_url",cursor.getString(5));
                         intent.putExtra("title",cursor.getString(2));
                         intent.putExtra("article_url",cursor.getString(4));
+
                         Log.d("Top Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);

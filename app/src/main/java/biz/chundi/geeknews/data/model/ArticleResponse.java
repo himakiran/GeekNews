@@ -24,6 +24,9 @@ public class ArticleResponse {
     @SerializedName("articles")
     @Expose
     private List<Article> articles = null;
+    @SerializedName("articleText")
+    @Expose
+    private String articleText;
 
     public String getStatus() {
         return status;
@@ -56,5 +59,9 @@ public class ArticleResponse {
     public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
+
+    public String getArticleText() {return articleText;}
+
+    public void setArticleText(String articleText) { this.articleText = articleText;}
 
 }

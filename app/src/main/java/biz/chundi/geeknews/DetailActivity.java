@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,9 +20,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
+import static biz.chundi.geeknews.sync.SyncNewsAdapter.getArticleText;
 import static java.security.AccessController.getContext;
 
 /**
@@ -34,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
     private static final boolean AUTO_HIDE = true;
+    private static final String ARTICLE_TEXT_URL = "http://positionlogger.com/clean.php?url=";
     public String LOG_TAG = DetailActivity.class.getSimpleName();
 
     /**
@@ -139,13 +143,13 @@ public class DetailActivity extends AppCompatActivity {
         Log.d(LOG_TAG," ARTICLE URL : "+article_url);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
         TextView textView = (TextView)findViewById(R.id.title);
-        TextView textView1 = (TextView)findViewById(R.id.fulltext_content);
+
         Picasso.with(getApplicationContext()).load(url_image).into(imageView);
         textView.setText(title);
+        // to code and review below
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.loadUrl(ARTICLE_TEXT_URL+article_url);
 
-        String articleText = SyncNewsAdapter.getArticleText(article_url);
-        textView1.setText(articleText);
-        Log.d(LOG_TAG," Article Text "+articleText);
     }
 
     @Override

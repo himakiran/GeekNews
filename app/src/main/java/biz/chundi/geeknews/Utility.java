@@ -2,22 +2,14 @@ package biz.chundi.geeknews;
 
 import android.util.Log;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 import biz.chundi.geeknews.data.model.ArticleResponse;
-import biz.chundi.geeknews.data.model.remote.ArticleTextService;
 import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.data.model.remote.RetrofitClient;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by userhk on 18/09/17.
@@ -50,15 +42,16 @@ public class Utility {
     }
 
     public static final String BASE_URL = "https://newsapi.org/";
-    public static final String ARTICLE_TEXT_URL = "http://positionlogger.com/";
+
+    public static final String ARTICLE_URL = "https://positionlogger.com/";
+
 
     public static NewsService getNewsService() {
         return RetrofitClient.getClient(BASE_URL).create(NewsService.class);
     }
 
-    public static ArticleTextService getArticleTextService() {
-
-        return RetrofitClient.getClient(ARTICLE_TEXT_URL).create(ArticleTextService.class);
+    public static NewsService getArticleTextService(){
+        return RetrofitClient.getClient(ARTICLE_URL).create(NewsService.class);
     }
 
 

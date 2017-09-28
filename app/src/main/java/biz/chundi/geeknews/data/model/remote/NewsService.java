@@ -22,4 +22,8 @@ public interface NewsService {
         Call<ArticleResponse> getArticles(@Query("source") String src,@Query("sortBy") String sortOrder,
                                           @Query("apiKey") String apiKey);
 
+    //http://positionlogger.com/clean.php?url=https://blog.mozilla.org/blog/2017/09/26/firefox-quantum-beta-developer-edition/
+
+        @GET("/clean.php")
+        Call<ArticleResponse> getArticleText (@Query("url") String url);
 }
