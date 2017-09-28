@@ -1,6 +1,7 @@
 package biz.chundi.geeknews;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -11,36 +12,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import biz.chundi.geeknews.data.NewsContract;
-import biz.chundi.geeknews.data.model.Article;
-import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A fragment representing a list of Latest Articles
- *
  */
-public class LatestFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class LatestFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     static final int COL_TABLE_NAME = 0;
     static final int COL_AUTHOR = 1;
@@ -67,13 +58,13 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
     };
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String SORTORDER = "latest";
     public String LOG_TAG = LatestFragment.class.getSimpleName();
+    public String PREF = "ArticlePref";
+    SharedPreferences pref;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private NewsService mService;
-    private static final String SORTORDER = "latest";
-    public String PREF  = "ArticlePref";
-    SharedPreferences pref ;
     private NewsCursorAdapter mNewsCursorAdapter;
     private int mpos = ListView.INVALID_POSITION;
 
@@ -125,48 +116,52 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
             lView.setEmptyView(progressBar);
             lView.setAdapter(mNewsCursorAdapter);
             /*
-        To code later
+        Launches the detail screen
  */
-//            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                    // CursorAdapter returns a cursor at the correct position for getItem(), or null
-//                    // if it cannot seek to that position.
-//                    Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-//                    Log.v("CHK-FORECASTFRAGMENT", cursor.getString(1));
-//
-//
-//                    if (cursor != null) {
-//                        String locationSetting = Utility.getPreferredLocation(getActivity());
-//                        ((Callback) getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                locationSetting, cursor.getLong(COL_WEATHER_DATE)
-//                        ));
-//
-//
-//                    }
-//                    // save the selected position.
-//                    mpos = position;
-//
-//                }
-//            });
+            lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                    // if it cannot seek to that position.
+                    Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                    Log.v("LatestFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
+
+
+
+                    if (cursor != null) {
+
+                        Intent intent = new Intent(getContext(),DetailActivity.class);
+                        intent.putExtra("image_url",cursor.getString(5));
+                        intent.putExtra("title",cursor.getString(2));
+                        intent.putExtra("article_url",cursor.getString(4));
+
+                        Log.d("Latest Fragment Cursor ", cursor.getString(5));
+
+                        startActivity(intent);
+
+
+                    }
+                    // save the selected position.
+                    mpos = position;
+
+                }
+            });
             if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
                 // The listview probably hasn't even been populated yet.  Actually perform the
                 // swapout in onLoadFinished.
                 mpos = savedInstanceState.getInt("select-pos");
             }
             ConnectivityManager cm =
-                    (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
-            if(isConnected) {
+            if (isConnected) {
                 // Below function launches the Retrofit to get JSON response
                 loadArticles();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), " Internet not available ", Toast.LENGTH_LONG).show();
             }
         }

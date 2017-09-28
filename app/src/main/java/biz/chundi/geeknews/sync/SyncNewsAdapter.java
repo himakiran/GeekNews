@@ -148,24 +148,23 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
                 cVVector.toArray(cvArray);
                 inserted = getContext().getContentResolver().bulkInsert(NewsContract.NewsArticleEntry.CONTENT_URI, cvArray);
 
-                //  sort the table by descorder
 
-
-                // To write delete queryto delete records older than 10 days
-                //getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
-                //notifyWeather(); FOR NOTIFICATIONS
             }
 
         Log.d(LOG_TAG," Records Inserted are : "+inserted);
 
         // To delete records older than five days
 
+        /*
+            https://stackoverflow.com/questions/11771580/deleting-android-sqllite-rows-older-than-x-days?rq=1
+         */
         //String WHERE = "NewsContract.NewsArticleEntry.COLUMN_PUBDATE <= date('now','-5 day')";
 
         String sql = "DELETE FROM articleTable WHERE pubDate <= date('now','-5 day')";
         NewsDBHelper dbHelper = new NewsDBHelper(getContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL(sql);
+        db.close();
 
 
 
