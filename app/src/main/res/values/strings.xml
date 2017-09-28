@@ -23,5 +23,6 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="videos_button">Show related videos</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="article_text_parser_src">positionlogger.com</string>
 
 </resources>

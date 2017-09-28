@@ -21,12 +21,15 @@ import biz.chundi.geeknews.Utility;
 import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
+import biz.chundi.geeknews.data.model.remote.ArticleTextService;
 import biz.chundi.geeknews.data.model.remote.NewsService;
+import biz.chundi.geeknews.data.model.remote.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+import static biz.chundi.geeknews.Utility.getArticleTextService;
 import static biz.chundi.geeknews.Utility.getNewsService;
 
 /**
@@ -176,6 +179,33 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     // Using  https://github.com/milosmns/goose  to get article text
     public static String getArticleText(String url) {
 
-        return null;
+        Log.d(LOG_TAG, "getArticleTextFromPositionLogger");
+
+        ArticleTextService mService = getArticleTextService();
+
+
+        // Execute the call asynchronously. Get a positive or negative callback.
+        mService.getArticleText(url).enqueue(new Callback<String>() {
+
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if(response.isSuccessful()){
+                    Log.d(LOG_TAG," PositionLogger  : " + response.toString());
+                    Utility.result = response.body();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(LOG_TAG," ERROR PositionLogger: "+t.toString());
+
+            }
+        });
+
+        return Utility.result;
+
     }
 }

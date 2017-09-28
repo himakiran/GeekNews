@@ -142,9 +142,10 @@ public class DetailActivity extends AppCompatActivity {
         TextView textView1 = (TextView)findViewById(R.id.fulltext_content);
         Picasso.with(getApplicationContext()).load(url_image).into(imageView);
         textView.setText(title);
+
         String articleText = SyncNewsAdapter.getArticleText(article_url);
         textView1.setText(articleText);
-        Log.d(LOG_TAG," Goose : Article Text "+articleText);
+        Log.d(LOG_TAG," Article Text "+articleText);
     }
 
     @Override

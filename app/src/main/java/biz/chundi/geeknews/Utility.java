@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import biz.chundi.geeknews.data.model.ArticleResponse;
+import biz.chundi.geeknews.data.model.remote.ArticleTextService;
 import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.data.model.remote.RetrofitClient;
 import okhttp3.OkHttpClient;
@@ -27,7 +28,7 @@ public class Utility {
     private  static String sortOrder = "top";
     private  static String newsSource = "engadget";
     public static String LOG_TAG = Utility.class.getSimpleName();
-
+    public static String result;
     public Utility(){
 
     }
@@ -49,9 +50,15 @@ public class Utility {
     }
 
     public static final String BASE_URL = "https://newsapi.org/";
+    public static final String ARTICLE_TEXT_URL = "http://positionlogger.com/";
 
     public static NewsService getNewsService() {
         return RetrofitClient.getClient(BASE_URL).create(NewsService.class);
+    }
+
+    public static ArticleTextService getArticleTextService() {
+
+        return RetrofitClient.getClient(ARTICLE_TEXT_URL).create(ArticleTextService.class);
     }
 
 
