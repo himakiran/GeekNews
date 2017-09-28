@@ -3,6 +3,8 @@ package biz.chundi.geeknews;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.support.annotation.ColorRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -146,8 +148,12 @@ public class DetailActivity extends AppCompatActivity {
 
         Picasso.with(getApplicationContext()).load(url_image).into(imageView);
         textView.setText(title);
-        // to code and review below
+
+        // Using position logger to extract article text and display in webview.
+        // Courtsey Kiran Golla..kirangolla@gmail.com
+
         WebView myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
         myWebView.loadUrl(ARTICLE_TEXT_URL+article_url);
 
     }
