@@ -2,18 +2,27 @@ package biz.chundi.geeknews;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import biz.chundi.geeknews.sync.SyncNewsAdapter;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+import static java.security.AccessController.getContext;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -25,6 +34,7 @@ public class DetailActivity extends AppCompatActivity {
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
     private static final boolean AUTO_HIDE = true;
+    public String LOG_TAG = DetailActivity.class.getSimpleName();
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -39,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
+    private View mVideoButton;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -105,6 +116,7 @@ public class DetailActivity extends AppCompatActivity {
         mContentView = findViewById(R.id.article_image);
 
 
+
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,12 +136,15 @@ public class DetailActivity extends AppCompatActivity {
         String url_image = intent.getStringExtra("image_url");
         String title = intent.getStringExtra("title");
         String article_url = intent.getStringExtra("article_url");
+        Log.d(LOG_TAG," ARTICLE URL : "+article_url);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
         TextView textView = (TextView)findViewById(R.id.title);
         TextView textView1 = (TextView)findViewById(R.id.fulltext_content);
         Picasso.with(getApplicationContext()).load(url_image).into(imageView);
         textView.setText(title);
-        textView1.setText("Long Article");
+        String articleText = SyncNewsAdapter.getArticleText(article_url);
+        textView1.setText(articleText);
+        Log.d(LOG_TAG," Goose : Article Text "+articleText);
     }
 
     @Override
@@ -194,5 +209,11 @@ public class DetailActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    public void showVideos(View view) {
+        Intent intent = new Intent(this, VideoActivity.class);
+
+        startActivity(intent);
     }
 }

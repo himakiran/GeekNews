@@ -116,7 +116,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
             lView.setEmptyView(progressBar);
             lView.setAdapter(mNewsCursorAdapter);
 /*
-        To code later
+        Launches the detail screen
  */
             lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

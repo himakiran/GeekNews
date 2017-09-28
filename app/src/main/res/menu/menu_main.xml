@@ -4,6 +4,7 @@
     tools:context="biz.chundi.geeknews.MainActivity">
     <group android:checkableBehavior="single">
 
+
         <item
             android:id="@+id/item1"
             android:title="@string/wired"
@@ -30,7 +31,9 @@
             android:checked="false"
             app:showAsAction="never" />
 
+
     </group>
+
 
     
 

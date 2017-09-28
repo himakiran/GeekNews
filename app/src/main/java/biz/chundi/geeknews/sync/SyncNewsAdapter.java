@@ -26,6 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
 import static biz.chundi.geeknews.Utility.getNewsService;
 
 /**
@@ -171,5 +172,10 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
         ContentResolver.requestSync(NewsAccount.getAccount(),
                 NewsContract.CONTENT_AUTHORITY, b);
 
+    }
+    // Using  https://github.com/milosmns/goose  to get article text
+    public static String getArticleText(String url) {
+
+        return null;
     }
 }
