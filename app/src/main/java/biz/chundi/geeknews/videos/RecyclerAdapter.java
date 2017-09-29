@@ -16,8 +16,11 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
+import java.util.ArrayList;
+
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.R;
+import biz.chundi.geeknews.Utility;
 
 /**
  * Created by userhk on 28/09/17.
@@ -30,11 +33,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
     YouTubeThumbnailLoader Loader;
 
     //these ids are the unique id for each video
-    String[] VideoID = {"P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"};
+   // String[] VideoID = {"P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"};
+
+    static ArrayList<String> VideoID = new ArrayList<>();
+
     Context ctx;
 
     public RecyclerAdapter(Context context) {
         this.ctx = context;
+
     }
 
     @Override
@@ -64,10 +71,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
         holder.youTubeThumbnailView.initialize(BuildConfig.API_KEY_YOUTUBE, new YouTubeThumbnailView.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
-
-                youTubeThumbnailLoader.setVideo(VideoID[position]);
-                youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
-                Loader = youTubeThumbnailLoader;
+                if(!VideoID.equals(null)) {
+                    youTubeThumbnailLoader.setVideo(VideoID.get(position));
+                    youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
+                    Loader = youTubeThumbnailLoader;
+                }
+                else
+                {
+                    youTubeThumbnailLoader.setVideo(null);
+                }
 
 
             }
@@ -82,7 +94,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
 
     @Override
     public int getItemCount() {
-        return VideoID.length;
+        return VideoID.size();
     }
 
     public class VideoInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -102,7 +114,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
         @Override
         public void onClick(View v) {
 
-            Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, BuildConfig.API_KEY_YOUTUBE, VideoID[getLayoutPosition()]);
+            Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, BuildConfig.API_KEY_YOUTUBE, VideoID.get(getLayoutPosition()));
             Loader.release();
             ctx.startActivity(intent);
 

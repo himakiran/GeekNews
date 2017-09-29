@@ -25,10 +25,15 @@ import okhttp3.Response;
  * Created by himakirankumar on 29/09/17.
  */
 
-public class DownloadYoutubeVideosList extends AsyncTask<String, Void, String> {
+public class DownloadYoutubeVideosList extends AsyncTask<String, Void, ArrayList<String>> {
+
+    public DownloadYoutubeVideosList(){
+
+    }
     public String LOG_TAG = DownloadYoutubeVideosList.class.getSimpleName();
+    ArrayList<String> videoIdsList;
     @Override
-    protected String doInBackground(String... params) {
+    protected ArrayList<String> doInBackground(String... params) {
         // https://www.googleapis.com/youtube/v3
 //            /search?part=snippet
 //                    &q=YouTube+Data+API
@@ -53,8 +58,9 @@ public class DownloadYoutubeVideosList extends AsyncTask<String, Void, String> {
             if (response.isSuccessful()) {
                 JSONObject json = new JSONObject(response.body().string());
                 JSONArray items =  json.getJSONArray("items");
-                ArrayList<String> videoIdsList = getVideoIdsList(items);
-                Log.d(LOG_TAG,videoIdsList.toString());
+                videoIdsList = getVideoIdsList(items);
+                RecyclerAdapter.VideoID = videoIdsList;
+                //Log.d(LOG_TAG,videoIdsList.toString());
                 //Log.d(LOG_TAG," items length : "+items.length()+" "+items.toString());
                 //Log.d(LOG_TAG,response.body().string());
             }
@@ -62,11 +68,13 @@ public class DownloadYoutubeVideosList extends AsyncTask<String, Void, String> {
             Log.e(LOG_TAG , " REQUEST FAIL");
 
         }
-        return null;
+        return videoIdsList;
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(ArrayList<String> result) {
+        super.onPostExecute(result);
+
         Log.d(LOG_TAG," RESULT "+result);
     }
 

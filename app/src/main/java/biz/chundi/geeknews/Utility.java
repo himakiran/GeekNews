@@ -3,6 +3,7 @@ package biz.chundi.geeknews;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
@@ -21,6 +22,7 @@ public class Utility {
     private  static String newsSource = "engadget";
     public static String LOG_TAG = Utility.class.getSimpleName();
     public static String result;
+    public static ArrayList<String> videoIdsList;
     public Utility(){
 
     }
@@ -39,6 +41,16 @@ public class Utility {
 
     public static String getNewsSource(){
         return newsSource;
+    }
+
+    public static void setVideoIdsList(ArrayList<String> videosList){
+        Log.d(LOG_TAG,"SET VIDEOS LIST : "+videoIdsList.toString());
+        videoIdsList = videosList;
+    }
+
+    public static ArrayList<String> getVideoIdsList(){
+        Log.d(LOG_TAG,"GET VIDEOS LIST : "+videoIdsList.toString());
+        return videoIdsList;
     }
 
     public static final String BASE_URL = "https://newsapi.org/";
