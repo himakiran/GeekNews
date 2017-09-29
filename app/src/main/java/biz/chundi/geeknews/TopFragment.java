@@ -127,7 +127,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                     Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
 
-
+                    pref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
                     if (cursor != null) {
 
@@ -135,6 +135,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                         intent.putExtra("image_url",cursor.getString(5));
                         intent.putExtra("title",cursor.getString(2));
                         intent.putExtra("article_url",cursor.getString(4));
+                        intent.putExtra("newsSrc",pref.getString("NewsSrc", "engadget"));
 
                         Log.d("Top Fragment Cursor ", cursor.getString(5));
 

@@ -34,7 +34,8 @@ public class DetailActivity extends AppCompatActivity {
     private static final boolean AUTO_HIDE = true;
     private static final String ARTICLE_TEXT_URL = "http://positionlogger.com/clean.php?url=";
     public String LOG_TAG = DetailActivity.class.getSimpleName();
-    SharedPreferences pref;
+
+    public String NewsSource;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -115,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.article_image);
 
-        pref = getPreferences(Context.MODE_PRIVATE);
+
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +137,9 @@ public class DetailActivity extends AppCompatActivity {
         String url_image = intent.getStringExtra("image_url");
         String title = intent.getStringExtra("title");
         String article_url = intent.getStringExtra("article_url");
+        NewsSource = intent.getStringExtra("newsSrc");
         Log.d(LOG_TAG," ARTICLE URL : "+article_url);
+        Log.d(LOG_TAG," NEWS SRC : "+NewsSource);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
         TextView textView = (TextView)findViewById(R.id.title);
 
@@ -219,7 +222,8 @@ public class DetailActivity extends AppCompatActivity {
     public void showVideos(View view) {
         Intent intent = new Intent(this, VideoActivity.class);
         DownloadYoutubeVideosList dl = new DownloadYoutubeVideosList();
-        String searchQuery = pref.getString("NewsSrc", "engadget") + " " + "Latest Videos";
+        String searchQuery = NewsSource + " " + "Latest Videos";
+
         dl.execute(searchQuery);
         startActivity(intent);
     }
