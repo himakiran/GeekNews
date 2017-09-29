@@ -104,8 +104,14 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_list, container, false);
 
-        if (view.findViewById(R.id.listTab) != null)
-            mTwoPane = true;
+        if(view.findViewById(R.id.listTabTop)!=null)
+            mTwoPane=true;
+        if(mTwoPane){
+            View view1 = inflater.inflate(R.layout.fragment_top, null);
+            LinearLayout item = (LinearLayout) view1.findViewById(R.id.top_list);
+            item.setOrientation(LinearLayout.VERTICAL);
+            view1.findViewById(R.id.description).setVisibility(View.GONE);
+        }
         // Set the adapter
         if (view instanceof ListView) {
 
