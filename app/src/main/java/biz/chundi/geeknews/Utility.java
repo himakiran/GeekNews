@@ -45,14 +45,14 @@ public class Utility {
 
     public static final String ARTICLE_URL = "https://positionlogger.com/";
 
+    public static final String YOUTUBE_URL = "https://www.googleapis.com/";
+
 
     public static NewsService getNewsService() {
         return RetrofitClient.getClient(BASE_URL).create(NewsService.class);
     }
 
-    public static NewsService getArticleTextService(){
-        return RetrofitClient.getClient(ARTICLE_URL).create(NewsService.class);
-    }
+
 
 
 }

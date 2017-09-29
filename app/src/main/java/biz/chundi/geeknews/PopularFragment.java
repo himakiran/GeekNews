@@ -11,9 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,21 +21,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import biz.chundi.geeknews.data.NewsContract;
-import biz.chundi.geeknews.data.model.Article;
-import biz.chundi.geeknews.data.model.ArticleResponse;
 import biz.chundi.geeknews.data.model.remote.NewsService;
-import biz.chundi.geeknews.dummy.DummyContent;
-import biz.chundi.geeknews.dummy.DummyContent.DummyItem;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static biz.chundi.geeknews.Utility.LOG_TAG;
 
 /**
  * A fragment representing a list of Popular Articles

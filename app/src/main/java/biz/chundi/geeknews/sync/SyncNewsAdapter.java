@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
@@ -25,8 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.src;
-import static biz.chundi.geeknews.Utility.getArticleTextService;
 import static biz.chundi.geeknews.Utility.getNewsService;
 
 /**
@@ -78,6 +75,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
         String newsSource = bundle.getString("newsSrc","engadget");
         String sortOrder = bundle.getString("sortOrder","top");
+
 
         getArticlesFromNewsAPI(newsSource,sortOrder);
 
@@ -168,6 +166,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
 
 
+
     }
 
     /**
@@ -185,23 +184,6 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    // Using  https://positionlogger.com  to get article text
-    public static void getArticleText(String url) {
 
-        Log.d(LOG_TAG," : " +"Utility function getArticleText called");
-        NewsService mService = getArticleTextService();
-        final ArticleResponse articleResponse = new ArticleResponse();
-
-
-        try {
-            Response<ArticleResponse> response = mService.getArticleText(url).execute();
-            articleResponse.setArticleText(response.body().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
 
 }

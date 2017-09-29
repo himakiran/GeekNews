@@ -2,32 +2,30 @@ package biz.chundi.geeknews;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.support.annotation.ColorRes;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
 import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import biz.chundi.geeknews.data.model.ArticleResponse;
-import biz.chundi.geeknews.sync.SyncNewsAdapter;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-import static biz.chundi.geeknews.sync.SyncNewsAdapter.getArticleText;
-import static java.security.AccessController.getContext;
+import static android.R.attr.key;
+import static android.R.attr.type;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -41,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final boolean AUTO_HIDE = true;
     private static final String ARTICLE_TEXT_URL = "http://positionlogger.com/clean.php?url=";
     public String LOG_TAG = DetailActivity.class.getSimpleName();
+    public String title;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -140,7 +139,7 @@ public class DetailActivity extends AppCompatActivity {
         // Retrieve data from intent extras
         Intent intent = this.getIntent();
         String url_image = intent.getStringExtra("image_url");
-        String title = intent.getStringExtra("title");
+        title = intent.getStringExtra("title");
         String article_url = intent.getStringExtra("article_url");
         Log.d(LOG_TAG," ARTICLE URL : "+article_url);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
@@ -224,7 +223,48 @@ public class DetailActivity extends AppCompatActivity {
 
     public void showVideos(View view) {
         Intent intent = new Intent(this, VideoActivity.class);
-
+        DownloadYoutubeVideosList dl = new DownloadYoutubeVideosList();
+        dl.execute();
         startActivity(intent);
     }
+
+    private class DownloadYoutubeVideosList extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            // https://www.googleapis.com/youtube/v3
+//            /search?part=snippet
+//                    &q=YouTube+Data+API
+//                    &type=video
+//                    &videoCaption=closedCaption
+//                    &key={YOUR_API_KEY}
+            OkHttpClient client = new OkHttpClient();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.googleapis.com/youtube/v3/search").newBuilder();
+            urlBuilder.addQueryParameter("part", "snippet");
+            urlBuilder.addQueryParameter("q", "vogella");
+            urlBuilder.addQueryParameter("key", BuildConfig.API_KEY_YOUTUBE);
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            try {
+                Log.e(LOG_TAG , " ENTERED HERE");
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    Log.d(LOG_TAG,response.body().toString());
+                }
+            } catch (Exception e){
+                Log.e(LOG_TAG , " REUQEST FAIL");
+
+        }
+            return null;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        Log.d(LOG_TAG," RESULT "+result);
+    }
+}
+
 }
