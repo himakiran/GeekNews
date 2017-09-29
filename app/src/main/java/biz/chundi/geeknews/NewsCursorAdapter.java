@@ -68,7 +68,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
         Resources res  = context.getResources();
 
         if (viewType == VIEW_TYPE_TOP) {
-            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
                 vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
             } else{
                 Picasso.with(context).load(cursor.getString(TopFragment.COL_URLIMG)).into(vh.imgView);
@@ -77,7 +77,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
             vh.description.setText(cursor.getString(TopFragment.COL_DESC));
         }
         else if(viewType == VIEW_TYPE_LATEST) {
-            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
                 vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
             } else{
                 Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
@@ -87,7 +87,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
         }
 
         else if(viewType == VIEW_TYPE_POPULAR) {
-            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
                 vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
             } else{
                 Picasso.with(context).load(cursor.getString(PopularFragment.COL_URLIMG)).into(vh.imgView);

@@ -1,4 +1,4 @@
-package biz.chundi.geeknews;
+package biz.chundi.geeknews.videos;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
+
+import biz.chundi.geeknews.BuildConfig;
+import biz.chundi.geeknews.R;
 
 /**
  * Created by userhk on 28/09/17.

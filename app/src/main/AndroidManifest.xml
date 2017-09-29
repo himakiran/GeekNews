@@ -71,7 +71,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="biz.chundi.geeknews.MainActivity" />
         </activity>
-        <activity android:name=".VideoActivity"></activity>
+        <activity android:name=".videos.VideoActivity"></activity>
     </application>
 
 </manifest>

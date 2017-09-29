@@ -45,7 +45,7 @@ public class Utility {
 
     public static final String ARTICLE_URL = "https://positionlogger.com/";
 
-    public static final String YOUTUBE_URL = "https://www.googleapis.com/";
+    public static final String YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/search";
 
 
     public static NewsService getNewsService() {
