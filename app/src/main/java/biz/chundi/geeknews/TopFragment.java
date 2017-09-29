@@ -66,7 +66,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     private int mColumnCount = 1;
     private int mpos = ListView.INVALID_POSITION;
     private NewsCursorAdapter mNewsCursorAdapter;
-
+    private boolean mTwoPane = false;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -104,7 +104,8 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_list, container, false);
 
-
+        if (view.findViewById(R.id.listTab) != null)
+            mTwoPane = true;
         // Set the adapter
         if (view instanceof ListView) {
 
