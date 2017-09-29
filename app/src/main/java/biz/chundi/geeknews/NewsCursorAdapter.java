@@ -1,6 +1,7 @@
 package biz.chundi.geeknews;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -64,19 +65,33 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
 
         int viewType = getItemViewType(layout_type);
 
-        if (viewType == VIEW_TYPE_TOP) {
+        Resources res  = context.getResources();
 
-            Picasso.with(context).load(cursor.getString(TopFragment.COL_URLIMG)).into(vh.imgView);
+        if (viewType == VIEW_TYPE_TOP) {
+            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
+            } else{
+                Picasso.with(context).load(cursor.getString(TopFragment.COL_URLIMG)).into(vh.imgView);
+            }
             vh.title.setText(cursor.getString(TopFragment.COL_TITLE));
             vh.description.setText(cursor.getString(TopFragment.COL_DESC));
         }
         else if(viewType == VIEW_TYPE_LATEST) {
-            Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
+            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
+            } else{
+                Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
+            }
             vh.title.setText(cursor.getString(LatestFragment.COL_TITLE));
             vh.pubDate.setText(cursor.getString(LatestFragment.COL_PUBDATE));
         }
 
         else if(viewType == VIEW_TYPE_POPULAR) {
+            if (cursor.getString(TopFragment.COL_URLIMG).isEmpty()) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
+            } else{
+                Picasso.with(context).load(cursor.getString(PopularFragment.COL_URLIMG)).into(vh.imgView);
+            }
             vh.title.setText(cursor.getString(PopularFragment.COL_TITLE));
             vh.description.setText(cursor.getString(PopularFragment.COL_DESC));
         }

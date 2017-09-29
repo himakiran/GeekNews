@@ -252,10 +252,10 @@ public class DetailActivity extends AppCompatActivity {
                 Log.e(LOG_TAG , " ENTERED HERE");
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
-                    Log.d(LOG_TAG,response.body().toString());
+                    Log.d(LOG_TAG,response.body().string());
                 }
             } catch (Exception e){
-                Log.e(LOG_TAG , " REUQEST FAIL");
+                Log.e(LOG_TAG , " REQUEST FAIL");
 
         }
             return null;

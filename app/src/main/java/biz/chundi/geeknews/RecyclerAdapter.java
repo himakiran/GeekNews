@@ -3,8 +3,8 @@ package biz.chundi.geeknews;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,9 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoInfoHolder> {
 
+    public String LOG_TAG = RecyclerAdapter.class.getSimpleName();
+
+    YouTubeThumbnailLoader Loader;
 
     //these ids are the unique id for each video
     String[] VideoID = {"P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"};
@@ -33,7 +36,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
 
     @Override
     public VideoInfoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_list_item, parent, false);
         return new VideoInfoHolder(itemView);
     }
 
@@ -60,11 +64,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
 
                 youTubeThumbnailLoader.setVideo(VideoID[position]);
                 youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
+                Loader = youTubeThumbnailLoader;
+
+
             }
 
             @Override
             public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
                 //write something for failure
+                Log.e(LOG_TAG , youTubeInitializationResult.toString());
             }
         });
     }
@@ -92,8 +100,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
         public void onClick(View v) {
 
             Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) ctx, BuildConfig.API_KEY_YOUTUBE, VideoID[getLayoutPosition()]);
+            Loader.release();
             ctx.startActivity(intent);
+
         }
+
     }
 }
 
