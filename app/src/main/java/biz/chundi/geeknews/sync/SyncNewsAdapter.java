@@ -136,7 +136,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
             cVVector.add(index,ArticleValues);
         }
-        Log.d(LOG_TAG," cVVector is : "+cVVector.toString());
+        //Log.d(LOG_TAG," cVVector is : "+cVVector.toString());
         int inserted = 0;
 
 

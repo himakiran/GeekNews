@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
-
+    android:id="@+id/detail_content"
 
     tools:context="biz.chundi.geeknews.DetailActivity">
     <!-- The primary full-screen view. This can be replaced with whatever view

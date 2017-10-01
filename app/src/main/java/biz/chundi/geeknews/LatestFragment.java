@@ -136,6 +136,7 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
                         intent.putExtra("title",cursor.getString(2));
                         intent.putExtra("article_url",cursor.getString(4));
                         intent.putExtra("newsSrc",pref.getString("NewsSrc", "engadget"));
+                        intent.putExtra("Type","Latest");
                         Log.d("Latest Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);

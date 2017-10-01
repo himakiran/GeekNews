@@ -36,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
     public String LOG_TAG = DetailActivity.class.getSimpleName();
 
     public String NewsSource;
-
+    private boolean mTwoPane = false;
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
@@ -106,7 +106,27 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Retrieve data from intent extras
+        Intent intent = this.getIntent();
+        String url_image = intent.getStringExtra("image_url");
+        String title = intent.getStringExtra("title");
+        String article_url = intent.getStringExtra("article_url");
+        NewsSource = intent.getStringExtra("newsSrc");
+        String topOrLatest = intent.getStringExtra("Type");
+
         setContentView(R.layout.activity_detail);
+        if(findViewById(R.id.detail_content_tablet)!=null)
+            mTwoPane=true;
+            if(mTwoPane){
+                if(topOrLatest.equals("Top")) {
+                    mContentView = findViewById(R.id.TopFragmentFrameTablet);
+                    mContentView.setVisibility(View.VISIBLE);
+                }
+                else if(topOrLatest.equals("Latest")){
+                    mContentView = findViewById(R.id.LatestFragmentFrameTablet);
+                    mContentView.setVisibility(View.VISIBLE);
+                }
+            }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -132,12 +152,7 @@ public class DetailActivity extends AppCompatActivity {
        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
 
-        // Retrieve data from intent extras
-        Intent intent = this.getIntent();
-        String url_image = intent.getStringExtra("image_url");
-        String title = intent.getStringExtra("title");
-        String article_url = intent.getStringExtra("article_url");
-        NewsSource = intent.getStringExtra("newsSrc");
+
         Log.d(LOG_TAG," ARTICLE URL : "+article_url);
         Log.d(LOG_TAG," NEWS SRC : "+NewsSource);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
