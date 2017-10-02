@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.R;
-import biz.chundi.geeknews.Utility;
 
 /**
  * Created by userhk on 28/09/17.
@@ -28,15 +27,12 @@ import biz.chundi.geeknews.Utility;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoInfoHolder> {
 
+    static ArrayList<String> VideoID = new ArrayList<>();
     public String LOG_TAG = RecyclerAdapter.class.getSimpleName();
 
-    YouTubeThumbnailLoader Loader;
-
     //these ids are the unique id for each video
-   // String[] VideoID = {"P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"};
-
-    static ArrayList<String> VideoID = new ArrayList<>();
-
+    // String[] VideoID = {"P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"};
+    YouTubeThumbnailLoader Loader;
     Context ctx;
 
     public RecyclerAdapter(Context context) {
@@ -71,13 +67,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
         holder.youTubeThumbnailView.initialize(BuildConfig.API_KEY_YOUTUBE, new YouTubeThumbnailView.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
-                if(!VideoID.equals(null)) {
+                if (!VideoID.equals(null)) {
                     youTubeThumbnailLoader.setVideo(VideoID.get(position));
                     youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
                     Loader = youTubeThumbnailLoader;
-                }
-                else
-                {
+                } else {
                     youTubeThumbnailLoader.setVideo(null);
                 }
 
@@ -87,7 +81,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
             @Override
             public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
                 //write something for failure
-                Log.e(LOG_TAG , youTubeInitializationResult.toString());
+                Log.e(LOG_TAG, youTubeInitializationResult.toString());
             }
         });
     }
@@ -100,8 +94,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VideoI
     public class VideoInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         protected RelativeLayout relativeLayoutOverYouTubeThumbnailView;
-        YouTubeThumbnailView youTubeThumbnailView;
         protected ImageView playButton;
+        YouTubeThumbnailView youTubeThumbnailView;
 
         public VideoInfoHolder(View itemView) {
             super(itemView);

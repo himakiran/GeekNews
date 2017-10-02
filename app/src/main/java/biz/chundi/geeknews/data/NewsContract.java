@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
 
-import static android.R.attr.id;
-
 
 /**
  * Created by himakirankumar on 18/09/17.
@@ -21,18 +19,16 @@ public class NewsContract {
      * the package name for the app, since it is guaranteed to be unique on the device.
      */
     public static final String CONTENT_AUTHORITY = "biz.chundi.geeknews";
-
-    /**
-     * The content authority is used to create the base of all URIs which apps will use to
-     * contact this content provider.
-     */
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
     /**
      * A list of possible paths that will be appended to the base URI for the news articles
      * table.
      */
     public static final String PATH_NEWS = "newsArticle";
+    /**
+     * The content authority is used to create the base of all URIs which apps will use to
+     * contact this content provider.
+     */
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // To make it easy to query for the exact date, we normalize all dates that go into
     // the database to the start of the the Julian day at UTC.
@@ -56,18 +52,18 @@ public class NewsContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NEWS;
 
         // Define the table schema
-        public static final String TABLE_NAME ="articleTable";
+        public static final String TABLE_NAME = "articleTable";
         public static final String COLUMN_AUTHOR = "author";
-        public static final String COLUMN_TITLE="title";
-        public static final String COLUMN_DESC="description";
-        public static final String COLUMN_URL="url";
-        public static final String COLUMN_URLIMG="urlImage";
-        public static final String COLUMN_PUBDATE="pubDate";
-        public static final String COLUMN_SRC="newsSrc";
-        public static final String COLUMN_SORTORDER="sortOrder";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_DESC = "description";
+        public static final String COLUMN_URL = "url";
+        public static final String COLUMN_URLIMG = "urlImage";
+        public static final String COLUMN_PUBDATE = "pubDate";
+        public static final String COLUMN_SRC = "newsSrc";
+        public static final String COLUMN_SORTORDER = "sortOrder";
 
         // Define a function to build a URI to find a specific ARTICLE by it's identifier
-        public static Uri buildNewsArticleUri(long id){
+        public static Uri buildNewsArticleUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
@@ -79,7 +75,6 @@ public class NewsContract {
         }
 
     }
-
 
 
 }

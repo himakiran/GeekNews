@@ -1,8 +1,5 @@
 package biz.chundi.geeknews.data.model.remote;
 
-import com.google.api.services.youtube.YouTube;
-
-import biz.chundi.geeknews.data.model.Article;
 import biz.chundi.geeknews.data.model.ArticleResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,13 +14,12 @@ import retrofit2.http.Query;
 public interface NewsService {
 
 
+    //https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=xxxxxxxxxxxxxx
 
-        //https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=xxxxxxxxxxxxxx
 
-
-        @GET("/v1/articles")
-        Call<ArticleResponse> getArticles(@Query("source") String src,@Query("sortBy") String sortOrder,
-                                          @Query("apiKey") String apiKey);
+    @GET("/v1/articles")
+    Call<ArticleResponse> getArticles(@Query("source") String src, @Query("sortBy") String sortOrder,
+                                      @Query("apiKey") String apiKey);
 
 
 }

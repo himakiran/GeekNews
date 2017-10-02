@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import biz.chundi.geeknews.R;
 import biz.chundi.geeknews.data.NewsContract;
 
 /**
@@ -31,6 +30,7 @@ public final class NewsAccount {
 
     /**
      * Gets the standard sync account for our app.
+     *
      * @return {@link Account}
      */
     public static Account getAccount() {
@@ -39,6 +39,7 @@ public final class NewsAccount {
 
     /**
      * Creates the standard sync account for our app.
+     *
      * @param c {@link Context}
      */
     public static void createSyncAccount(Context c) {
@@ -47,7 +48,7 @@ public final class NewsAccount {
 
         // Get an account and the account manager
         Account account = getAccount();
-        AccountManager manager = (AccountManager)c.getSystemService(Context.ACCOUNT_SERVICE);
+        AccountManager manager = (AccountManager) c.getSystemService(Context.ACCOUNT_SERVICE);
 
         // Attempt to explicitly create the account with no password or extra data
         if (manager.addAccountExplicitly(account, null, null)) {
@@ -71,7 +72,7 @@ public final class NewsAccount {
 
         // Force a sync if the account was just created
         if (created) {
-            SyncNewsAdapter.performSync("engadget","top");
+            SyncNewsAdapter.performSync("engadget", "top");
         }
     }
 }

@@ -19,7 +19,7 @@ public class NewsDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newsArticles.db";
     public Context mContext;
 
-    public NewsDBHelper(Context context){
+    public NewsDBHelper(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
@@ -28,6 +28,7 @@ public class NewsDBHelper extends SQLiteOpenHelper {
 
     /**
      * Called when the database is first created.
+     *
      * @param db The database being created, which all SQL statements will be executed on.
      */
     @Override
@@ -43,9 +44,10 @@ public class NewsDBHelper extends SQLiteOpenHelper {
 
     /**
      * Inserts the movie table into the database.
+     *
      * @param db The SQLiteDatabase the table is being inserted into.
      */
-    private void addNewsArticleTable(SQLiteDatabase db){
+    private void addNewsArticleTable(SQLiteDatabase db) {
         db.execSQL(
                 "CREATE TABLE " + NewsContract.NewsArticleEntry.TABLE_NAME + " (" +
                         NewsContract.NewsArticleEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -59,26 +61,26 @@ public class NewsDBHelper extends SQLiteOpenHelper {
                         NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " TEXT  " + ");"
         );
 
-        Intent intent_article_update=new  Intent(mContext,NewsAppWidget.class);
+        Intent intent_article_update = new Intent(mContext, NewsAppWidget.class);
         intent_article_update.setAction(NewsAppWidget.UPDATE_NEWS_ARTICLES);
 
-         mContext.sendBroadcast(intent_article_update);
+        mContext.sendBroadcast(intent_article_update);
     }
 
     // Helper function to retrieve titles of latest articles of selected news source for use in widget
 
     public String[] getTitles(SQLiteDatabase db, String newsSrc) {
 
-       // return db.execSQL()
+        // return db.execSQL()
 
         String[] stringList;
-        int i=0;
-        String  retQuery = "SELECT " + NewsContract.NewsArticleEntry.COLUMN_TITLE + " FROM " +
-                NewsContract.NewsArticleEntry.TABLE_NAME  + " WHERE " +" (" + NewsContract.NewsArticleEntry.COLUMN_SRC +
-                " = " + '"'+ newsSrc +'"'+ " )" + " ORDER BY " + NewsContract.NewsArticleEntry.COLUMN_PUBDATE
-                + " DESC " +";";
+        int i = 0;
+        String retQuery = "SELECT " + NewsContract.NewsArticleEntry.COLUMN_TITLE + " FROM " +
+                NewsContract.NewsArticleEntry.TABLE_NAME + " WHERE " + " (" + NewsContract.NewsArticleEntry.COLUMN_SRC +
+                " = " + '"' + newsSrc + '"' + " )" + " ORDER BY " + NewsContract.NewsArticleEntry.COLUMN_PUBDATE
+                + " DESC " + ";";
 
-        Cursor c = db.rawQuery(retQuery,null);
+        Cursor c = db.rawQuery(retQuery, null);
 
         stringList = new String[c.getCount()];
 
@@ -92,6 +94,7 @@ public class NewsDBHelper extends SQLiteOpenHelper {
         }
 
         Log.d("DBHELPER", stringList.toString());
+        db.close();
         return stringList;
     }
 

@@ -38,7 +38,7 @@ public class NewsAppWidget extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.news_app_widget);
         rv.setRemoteAdapter(appWidgetId, R.id.list_view_widget, intent);
 
-        Intent startActivityIntent = new Intent(context,MainActivity.class);
+        Intent startActivityIntent = new Intent(context, MainActivity.class);
 
         PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context, 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -68,18 +68,17 @@ public class NewsAppWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    public void onReceive(Context context, Intent intent){
+    public void onReceive(Context context, Intent intent) {
 
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
 
         if (intent.getAction().equals(UPDATE_NEWS_ARTICLES)) {
 
-            int appWidgetIds[] = mgr.getAppWidgetIds(new ComponentName(context,NewsAppWidget.class));
+            int appWidgetIds[] = mgr.getAppWidgetIds(new ComponentName(context, NewsAppWidget.class));
 
             Log.e("received", intent.getAction());
 
             mgr.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_widget);
-
 
 
         }

@@ -5,32 +5,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import biz.chundi.geeknews.NewsCursorAdapter;
 import biz.chundi.geeknews.R;
 import biz.chundi.geeknews.Utility;
-import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.NewsDBHelper;
-
-import static android.R.attr.data;
 
 
 /**
  * Created by userhk on 02/10/17.
  */
 
-public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
+public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+    SharedPreferences pref;
     private Context mContext;
     private ArrayList<String> records;
     private NewsDBHelper newsDBHelper;
-    SharedPreferences pref;
 
 
     public ListviewRemoteViewsFactory(Context context, Intent intent) {
@@ -38,6 +31,7 @@ public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteView
         mContext = context;
 
     }
+
     @Override
     public void onCreate() {
 
@@ -79,7 +73,7 @@ public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteView
 
         Intent fillInIntent = new Intent();
 
-        fillInIntent.putExtra("news_article_title",records.get(i));
+        fillInIntent.putExtra("news_article_title", records.get(i));
 
         fillInIntent.putExtras(extras);
 
@@ -114,8 +108,7 @@ public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteView
         return false;
     }
 
-    private void updateWidgetListView()
-    {
+    private void updateWidgetListView() {
         records = new ArrayList<String>();
 
         String newsSrc = Utility.getNewsSource();

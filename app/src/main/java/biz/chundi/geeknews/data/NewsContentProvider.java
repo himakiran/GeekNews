@@ -7,23 +7,32 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
-
-import static android.media.tv.TvContract.Programs.Genres.NEWS;
-import static android.provider.MediaStore.Audio.Genres.Members.GENRE_ID;
 
 public class NewsContentProvider extends ContentProvider {
 
+    public static final String LOG_TAG = NewsContentProvider.class.getSimpleName();
     private static final int NEWSARTICLE = 100;
     private static final int NEWSARTICLE_ID = 101;
     private static final int NEWSSRC = 102;
-
-    public static final String LOG_TAG  = NewsContentProvider.class.getSimpleName();
-
-    private NewsDBHelper mNewsDBHelper;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private NewsDBHelper mNewsDBHelper;
 
     public NewsContentProvider() {
+    }
+
+    /**
+     * Builds a UriMatcher that is used to determine witch database request is being made.
+     */
+    public static UriMatcher buildUriMatcher() {
+        String content = NewsContract.CONTENT_AUTHORITY;
+
+        // All paths to the UriMatcher have a corresponding code to return
+        // when a match is found (the ints above).
+        UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        matcher.addURI(content, NewsContract.PATH_NEWS, NEWSARTICLE);
+        matcher.addURI(content, NewsContract.PATH_NEWS + "/#", NEWSARTICLE_ID);
+
+        return matcher;
     }
 
     @Override
@@ -31,7 +40,7 @@ public class NewsContentProvider extends ContentProvider {
         final SQLiteDatabase db = mNewsDBHelper.getWritableDatabase();
         int rows; // Number of rows effected
 
-        switch(sUriMatcher.match(uri)) {
+        switch (sUriMatcher.match(uri)) {
             case NEWSARTICLE:
                 rows = db.delete(NewsContract.NewsArticleEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -40,7 +49,7 @@ public class NewsContentProvider extends ContentProvider {
         }
 
         // Because null could delete all rows:
-        if(selection == null || rows != 0){
+        if (selection == null || rows != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -49,7 +58,7 @@ public class NewsContentProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        switch(sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case NEWSARTICLE:
                 return NewsContract.NewsArticleEntry.CONTENT_TYPE;
             case NEWSARTICLE_ID:
@@ -69,12 +78,12 @@ public class NewsContentProvider extends ContentProvider {
         long _id;
         Uri returnUri;
 
-        switch(sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case NEWSARTICLE:
                 _id = db.insert(NewsContract.NewsArticleEntry.TABLE_NAME, null, values);
-                if(_id > 0){
-                    returnUri =  NewsContract.NewsArticleEntry.buildNewsArticleUri(_id);
-                } else{
+                if (_id > 0) {
+                    returnUri = NewsContract.NewsArticleEntry.buildNewsArticleUri(_id);
+                } else {
                     throw new UnsupportedOperationException("Unable to insert rows into: " + uri);
                 }
                 break;
@@ -86,7 +95,7 @@ public class NewsContentProvider extends ContentProvider {
 
         // Use this on the URI passed into the function to notify any observers that the uri has
         // changed.
-        getContext().getContentResolver().notifyChange(uri, null,true);
+        getContext().getContentResolver().notifyChange(uri, null, true);
         return returnUri;
     }
 
@@ -101,7 +110,7 @@ public class NewsContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         final SQLiteDatabase db = mNewsDBHelper.getWritableDatabase();
         Cursor retCursor;
-        switch(sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case NEWSARTICLE:
                 retCursor = db.query(
                         NewsContract.NewsArticleEntry.TABLE_NAME,
@@ -144,7 +153,7 @@ public class NewsContentProvider extends ContentProvider {
         final SQLiteDatabase db = mNewsDBHelper.getWritableDatabase();
         int rows;
 
-        switch(sUriMatcher.match(uri)) {
+        switch (sUriMatcher.match(uri)) {
             case NEWSARTICLE:
                 rows = db.update(NewsContract.NewsArticleEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
@@ -152,27 +161,11 @@ public class NewsContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        if(rows != 0){
+        if (rows != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        getContext().getContentResolver().notifyChange(uri, null,true);
+        getContext().getContentResolver().notifyChange(uri, null, true);
         return rows;
 
-    }
-
-
-        /**
-         * Builds a UriMatcher that is used to determine witch database request is being made.
-         */
-    public static UriMatcher buildUriMatcher(){
-        String content = NewsContract.CONTENT_AUTHORITY;
-
-        // All paths to the UriMatcher have a corresponding code to return
-        // when a match is found (the ints above).
-        UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        matcher.addURI(content, NewsContract.PATH_NEWS, NEWSARTICLE);
-        matcher.addURI(content, NewsContract.PATH_NEWS + "/#", NEWSARTICLE_ID);
-
-        return matcher;
     }
 }

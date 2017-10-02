@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,11 +20,14 @@ import android.widget.Toast;
 
 import biz.chundi.geeknews.widget.NewsAppWidget;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     /*
     https://learnpainless.com/android/how-to-get-fragment-from-viewpager-android
      */
+    public String LOG_TAG = MainActivity.class.getSimpleName();
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -35,15 +37,10 @@ public class MainActivity extends AppCompatActivity  {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    public String LOG_TAG = MainActivity.class.getSimpleName();
-
-    public SharedPreferences pref;
-    public SharedPreferences.Editor editor;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
 
 
     @Override
@@ -56,7 +53,7 @@ public class MainActivity extends AppCompatActivity  {
         LayoutInflater myInflater = LayoutInflater.from(this);
         View view = myInflater.inflate(R.layout.custom_toast_layout, null);
         Toast mytoast = new Toast(this);
-        mytoast.makeText(this,R.string.poweredBy,Toast.LENGTH_LONG);
+        Toast.makeText(this, R.string.poweredBy, Toast.LENGTH_LONG);
         mytoast.setView(view);
         mytoast.show();
 
@@ -79,29 +76,29 @@ public class MainActivity extends AppCompatActivity  {
         //Code to remember previously selected tab
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                                               @Override
-                                               public void onTabSelected(TabLayout.Tab tab) {
-                                                   int selTab = tab.getPosition();
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int selTab = tab.getPosition();
 
-                                                   mViewPager.setCurrentItem(selTab);
-                                                   SharedPreferences.Editor editor = pref.edit();
-                                                   editor.putInt("Tab", selTab);
-                                                   editor.apply();
-                                               }
+                mViewPager.setCurrentItem(selTab);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("Tab", selTab);
+                editor.apply();
+            }
 
-                                               @Override
-                                               public void onTabUnselected(TabLayout.Tab tab) {
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                                               }
+            }
 
-                                               @Override
-                                               public void onTabReselected(TabLayout.Tab tab) {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-                                               }
-                                           });
+            }
+        });
 
 
-        int selectedTabIndex = pref.getInt("Tab",1);
+        int selectedTabIndex = pref.getInt("Tab", 1);
         TabLayout.Tab selectedTab = tabLayout.getTabAt(selectedTabIndex);
         selectedTab.select();
 
@@ -129,9 +126,9 @@ public class MainActivity extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         // Retrieve the last checked value and set accordingly.
         pref = getPreferences(MODE_PRIVATE);
-        String menuSelected = pref.getString("NewsSrc","wired-de");
-        int menuItemId=0;
-        switch(menuSelected) {
+        String menuSelected = pref.getString("NewsSrc", "wired-de");
+        int menuItemId = 0;
+        switch (menuSelected) {
             case "wired.de":
                 menuItemId = 0;
                 break;
@@ -166,51 +163,47 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.item1:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc","wired-de");
-                Log.d(LOG_TAG," SHARED PREF : " + "wired-de");
+                editor.putString("NewsSrc", "wired-de");
+                Log.d(LOG_TAG, " SHARED PREF : " + "wired-de");
                 break;
             case R.id.item2:
                 Utility.setNewsSource(getString(R.string.recodeSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc","recode");
-                Log.d(LOG_TAG," SHARED PREF : " + "recode");
+                editor.putString("NewsSrc", "recode");
+                Log.d(LOG_TAG, " SHARED PREF : " + "recode");
                 break;
             case R.id.item3:
                 Utility.setNewsSource(getString(R.string.arsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc","ars-technica");
-                Log.d(LOG_TAG," SHARED PREF : " + "ars-technica");
+                editor.putString("NewsSrc", "ars-technica");
+                Log.d(LOG_TAG, " SHARED PREF : " + "ars-technica");
                 break;
             case R.id.item4:
                 Utility.setNewsSource(getString(R.string.engadgetSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc","engadget");
-                Log.d(LOG_TAG," SHARED PREF : " + "engadget");
+                editor.putString("NewsSrc", "engadget");
+                Log.d(LOG_TAG, " SHARED PREF : " + "engadget");
                 break;
             case R.id.item5:
                 Utility.setNewsSource(getString(R.string.hackernewsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc","hacker-news");
-                Log.d(LOG_TAG," SHARED PREF : " + "hacker-news");
+                editor.putString("NewsSrc", "hacker-news");
+                Log.d(LOG_TAG, " SHARED PREF : " + "hacker-news");
                 break;
             default:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
-                editor.putString("NewsSrc","wired.de");
-                Log.d(LOG_TAG," SHARED PREF : " + "wired.de");
+                editor.putString("NewsSrc", "wired.de");
+                Log.d(LOG_TAG, " SHARED PREF : " + "wired.de");
                 break;
 
         }
 
         editor.commit();
-        Log.d(LOG_TAG," OPTION SELECTED "+item.toString());
+        Log.d(LOG_TAG, " OPTION SELECTED " + item.toString());
 
         mViewPager.getAdapter().notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
 
     /**
@@ -227,7 +220,7 @@ public class MainActivity extends AppCompatActivity  {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
-            Log.d(LOG_TAG,"MainActivity Position : "+position);
+            Log.d(LOG_TAG, "MainActivity Position : " + position);
 
             switch (position) {
                 case 0:
@@ -240,7 +233,7 @@ public class MainActivity extends AppCompatActivity  {
 
             }
 
-            Intent intent_article_update=new  Intent(getApplicationContext(),NewsAppWidget.class);
+            Intent intent_article_update = new Intent(getApplicationContext(), NewsAppWidget.class);
             intent_article_update.setAction(NewsAppWidget.UPDATE_NEWS_ARTICLES);
 
             getApplicationContext().sendBroadcast(intent_article_update);
@@ -273,7 +266,7 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public int getItemPosition(Object object) {
 
-            Log.i(LOG_TAG, "Menu selected : "+object.toString());
+            Log.i(LOG_TAG, "Menu selected : " + object.toString());
 
             return POSITION_NONE;
         }

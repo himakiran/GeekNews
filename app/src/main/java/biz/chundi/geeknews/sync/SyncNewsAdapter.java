@@ -34,8 +34,8 @@ import static biz.chundi.geeknews.Utility.getNewsService;
 
 public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
-    ContentResolver mContentResolver;
     public final static String LOG_TAG = SyncNewsAdapter.class.getSimpleName();
+    ContentResolver mContentResolver;
 
 
     public SyncNewsAdapter(Context context, boolean autoInitialize) {
@@ -67,23 +67,37 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
+    /**
+     * Manual force Android to perform a sync with our SyncAdapter.
+     */
+    public static void performSync(String src, String sortOrder) {
+        Log.d(LOG_TAG, " perform Sync ");
+        Bundle b = new Bundle();
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        b.putString("newsSrc", src);
+        b.putString("sortOrder", sortOrder);
+        ContentResolver.requestSync(NewsAccount.getAccount(),
+                NewsContract.CONTENT_AUTHORITY, b);
+
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle bundle,
                               String s, ContentProviderClient contentProviderClient,
                               SyncResult syncResult) {
         //Log.d(LOG_TAG, "onPerformSync Called.");
 
-        String newsSource = bundle.getString("newsSrc","engadget");
-        String sortOrder = bundle.getString("sortOrder","top");
+        String newsSource = bundle.getString("newsSrc", "engadget");
+        String sortOrder = bundle.getString("sortOrder", "top");
 
 
-        getArticlesFromNewsAPI(newsSource,sortOrder);
-
-
+        getArticlesFromNewsAPI(newsSource, sortOrder);
 
 
     }
-    public Void getArticlesFromNewsAPI(String src, String sort){
+
+    public Void getArticlesFromNewsAPI(String src, String sort) {
 
         //Log.d(LOG_TAG, "getArticlesFromeNewsApi");
 
@@ -91,13 +105,13 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
 
         // Execute the call asynchronously. Get a positive or negative callback.
-        mService.getArticles(src,sort,BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
+        mService.getArticles(src, sort, BuildConfig.API_KEY).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //Log.d(LOG_TAG," : " + response.toString());
-                    updateDBWithArticlesData(response.body().getSource(),response.body().getSortBy(),response.body().getArticles());
+                    updateDBWithArticlesData(response.body().getSource(), response.body().getSortBy(), response.body().getArticles());
 
                 }
 
@@ -105,7 +119,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                Log.d(LOG_TAG," ERROR : "+t.toString());
+                Log.d(LOG_TAG, " ERROR : " + t.toString());
 
             }
         });
@@ -113,41 +127,39 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
         return null;
     }
 
-
-    void updateDBWithArticlesData(String newsSrc,String sortOrder, List<Article> articleList){
+    void updateDBWithArticlesData(String newsSrc, String sortOrder, List<Article> articleList) {
 
         //Log.d(LOG_TAG,"No of Articles : "+articleList.size());
 
         Vector<ContentValues> cVVector = new Vector<ContentValues>(articleList.size());
         ContentValues ArticleValues;
 
-        for(int index=0;index < articleList.size();index+=1){
+        for (int index = 0; index < articleList.size(); index += 1) {
 
             ArticleValues = new ContentValues();
 
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_AUTHOR),articleList.get(index).getAuthor());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_TITLE),articleList.get(index).getTitle());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_DESC),articleList.get(index).getDescription());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URL),articleList.get(index).getUrl());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG),articleList.get(index).getUrlToImage());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE),articleList.get(index).getPublishedAt());
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SRC),newsSrc);
-            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SORTORDER),sortOrder);
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_AUTHOR), articleList.get(index).getAuthor());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_TITLE), articleList.get(index).getTitle());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_DESC), articleList.get(index).getDescription());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URL), articleList.get(index).getUrl());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_URLIMG), articleList.get(index).getUrlToImage());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_PUBDATE), articleList.get(index).getPublishedAt());
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SRC), newsSrc);
+            ArticleValues.put((NewsContract.NewsArticleEntry.COLUMN_SORTORDER), sortOrder);
 
-            cVVector.add(index,ArticleValues);
+            cVVector.add(index, ArticleValues);
         }
         //Log.d(LOG_TAG," cVVector is : "+cVVector.toString());
         int inserted = 0;
 
 
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            inserted = getContext().getContentResolver().bulkInsert(NewsContract.NewsArticleEntry.CONTENT_URI, cvArray);
 
-            if (cVVector.size() > 0) {
-                ContentValues[] cvArray = new ContentValues[cVVector.size()];
-                cVVector.toArray(cvArray);
-                inserted = getContext().getContentResolver().bulkInsert(NewsContract.NewsArticleEntry.CONTENT_URI, cvArray);
 
-
-            }
+        }
 
         //Log.d(LOG_TAG," Records Inserted are : "+inserted);
 
@@ -165,25 +177,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
         db.close();
 
 
-
-
     }
-
-    /**
-     * Manual force Android to perform a sync with our SyncAdapter.
-     */
-    public static void performSync(String src, String sortOrder) {
-        Log.d(LOG_TAG, " perform Sync ");
-        Bundle b = new Bundle();
-        b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        b.putString("newsSrc",src);
-        b.putString("sortOrder",sortOrder);
-        ContentResolver.requestSync(NewsAccount.getAccount(),
-                NewsContract.CONTENT_AUTHORITY, b);
-
-    }
-
 
 
 }

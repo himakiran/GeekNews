@@ -30,7 +30,6 @@ import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
 /**
  * A fragment representing a list of Top Articles.
- *
  */
 public class TopFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -67,6 +66,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     private int mpos = ListView.INVALID_POSITION;
     private NewsCursorAdapter mNewsCursorAdapter;
     private boolean mTwoPane = false;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -138,12 +138,12 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
                     if (cursor != null) {
 
-                        Intent intent = new Intent(getContext(),DetailActivity.class);
-                        intent.putExtra("image_url",cursor.getString(5));
-                        intent.putExtra("title",cursor.getString(2));
-                        intent.putExtra("article_url",cursor.getString(4));
-                        intent.putExtra("newsSrc",pref.getString("NewsSrc", "engadget"));
-                        intent.putExtra("Type","Top");
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        intent.putExtra("image_url", cursor.getString(5));
+                        intent.putExtra("title", cursor.getString(2));
+                        intent.putExtra("article_url", cursor.getString(4));
+                        intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
+                        intent.putExtra("Type", "Top");
                         Log.d("Top Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);
@@ -184,7 +184,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
             https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
          */
         getLoaderManager().restartLoader(101, null, this);
-       // Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
+        // Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
     @Override
@@ -214,7 +214,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     public void setUpContentSync(String src, String sort) {
 
-      //  Log.d(LOG_TAG, " setUpContentSync ");
+        //  Log.d(LOG_TAG, " setUpContentSync ");
 
         NewsAccount.createSyncAccount(getContext());
         SyncNewsAdapter.performSync(src, sort);

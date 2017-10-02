@@ -1,18 +1,12 @@
 package biz.chundi.geeknews.videos;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
-
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import biz.chundi.geeknews.BuildConfig;
 import biz.chundi.geeknews.Utility;
@@ -27,11 +21,12 @@ import okhttp3.Response;
 
 public class DownloadYoutubeVideosList extends AsyncTask<String, Void, ArrayList<String>> {
 
-    public DownloadYoutubeVideosList(){
-
-    }
     public String LOG_TAG = DownloadYoutubeVideosList.class.getSimpleName();
     ArrayList<String> videoIdsList;
+    public DownloadYoutubeVideosList() {
+
+    }
+
     @Override
     protected ArrayList<String> doInBackground(String... params) {
         // https://www.googleapis.com/youtube/v3
@@ -40,7 +35,7 @@ public class DownloadYoutubeVideosList extends AsyncTask<String, Void, ArrayList
 //                    &type=video
 //                    &videoCaption=closedCaption
 //                    &key={YOUR_API_KEY}
-        Log.d(LOG_TAG," Search Parameter given is "+params[0]);
+        Log.d(LOG_TAG, " Search Parameter given is " + params[0]);
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Utility.YOUTUBE_URL).newBuilder();
         urlBuilder.addQueryParameter("part", "snippet");
@@ -53,19 +48,19 @@ public class DownloadYoutubeVideosList extends AsyncTask<String, Void, ArrayList
                 .build();
 
         try {
-            Log.e(LOG_TAG , " ENTERED HERE");
+            Log.e(LOG_TAG, " ENTERED HERE");
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 JSONObject json = new JSONObject(response.body().string());
-                JSONArray items =  json.getJSONArray("items");
+                JSONArray items = json.getJSONArray("items");
                 videoIdsList = getVideoIdsList(items);
                 RecyclerAdapter.VideoID = videoIdsList;
                 //Log.d(LOG_TAG,videoIdsList.toString());
                 //Log.d(LOG_TAG," items length : "+items.length()+" "+items.toString());
                 //Log.d(LOG_TAG,response.body().string());
             }
-        } catch (Exception e){
-            Log.e(LOG_TAG , " REQUEST FAIL");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, " REQUEST FAIL");
 
         }
         return videoIdsList;
@@ -75,28 +70,28 @@ public class DownloadYoutubeVideosList extends AsyncTask<String, Void, ArrayList
     protected void onPostExecute(ArrayList<String> result) {
         super.onPostExecute(result);
 
-        Log.d(LOG_TAG," RESULT "+result);
+        Log.d(LOG_TAG, " RESULT " + result);
     }
 
-    public ArrayList<String> getVideoIdsList(JSONArray jsonArray){
+    public ArrayList<String> getVideoIdsList(JSONArray jsonArray) {
 
-        ArrayList<String> result  = new ArrayList<>();
-        JSONObject j , r;
-        for(int i = 0 ; i < jsonArray.length() ; i++) {
+        ArrayList<String> result = new ArrayList<>();
+        JSONObject j, r;
+        for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 j = (JSONObject) jsonArray.get(i);
 
-                r = (JSONObject) j.getJSONObject("id");
-                Log.d(LOG_TAG," I = "+i+" "+r.toString());
-                if(r.getString("kind").equals("youtube#video"))
-                    result.add(i,r.getString("videoId"));
+                r = j.getJSONObject("id");
+                Log.d(LOG_TAG, " I = " + i + " " + r.toString());
+                if (r.getString("kind").equals("youtube#video"))
+                    result.add(i, r.getString("videoId"));
                 else
                     result.add(null);
             } catch (Exception e) {
-                Log.e(LOG_TAG,e.toString());
+                Log.e(LOG_TAG, e.toString());
             }
         }
-        return  result;
+        return result;
     }
 }
 

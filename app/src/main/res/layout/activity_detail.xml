@@ -1,10 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
-    android:id="@+id/detail_content"
 
     tools:context="biz.chundi.geeknews.DetailActivity">
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -41,13 +41,12 @@
                 android:textSize="@dimen/phone_detail_text_size_title"
                 android:textStyle="bold" /><!--android:gravity="center"-->
 
-            <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+            <WebView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/webview"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                />
+                android:layout_height="fill_parent" />
 
-            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -70,10 +69,10 @@
             <Button
                 android:id="@+id/video_button"
                 style="?metaButtonBarButtonStyle"
-                android:onClick="showVideos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="showVideos"
                 android:text="@string/videos_button" />
 
         </LinearLayout>

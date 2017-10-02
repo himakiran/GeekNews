@@ -1,10 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
-    android:id="@+id/detail_content"
 
     tools:context="biz.chundi.geeknews.DetailActivity">
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -41,21 +41,20 @@
                 android:textSize="@dimen/phone_detail_text_size_title"
                 android:textStyle="bold" /><!--android:gravity="center"-->
 
-            <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+            <WebView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/webview"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                />
+                android:layout_height="fill_parent" />
 
             <!--<TextView-->
-                <!--android:id="@+id/fulltext_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:keepScreenOn="true"-->
-                <!--android:text="@string/dummy_content"-->
-                <!--android:textColor="#33b5e5"-->
-                <!--android:textSize="14sp"-->
-                <!--android:textStyle="bold" />&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+            <!--android:id="@+id/fulltext_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:keepScreenOn="true"-->
+            <!--android:text="@string/dummy_content"-->
+            <!--android:textColor="#33b5e5"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textStyle="bold" />&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
         </LinearLayout>
     </ScrollView>
 
@@ -79,13 +78,20 @@
             <Button
                 android:id="@+id/video_button"
                 style="?metaButtonBarButtonStyle"
-                android:onClick="showVideos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="showVideos"
                 android:text="@string/videos_button" />
 
         </LinearLayout>
     </FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </FrameLayout>

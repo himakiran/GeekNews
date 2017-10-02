@@ -34,24 +34,35 @@ public class DetailActivity extends AppCompatActivity {
      */
     private static final boolean AUTO_HIDE = true;
     private static final String ARTICLE_TEXT_URL = "http://positionlogger.com/clean.php?url=";
-    public String LOG_TAG = DetailActivity.class.getSimpleName();
-
-    public String NewsSource;
-    private boolean mTwoPane = false;
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
      */
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
     /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
+    public String LOG_TAG = DetailActivity.class.getSimpleName();
+    public String NewsSource;
+    private boolean mTwoPane = false;
     private View mContentView;
-    private View mVideoButton;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -69,6 +80,7 @@ public class DetailActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
+    private View mVideoButton;
     private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
@@ -88,20 +100,6 @@ public class DetailActivity extends AppCompatActivity {
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,18 +114,17 @@ public class DetailActivity extends AppCompatActivity {
         String topOrLatest = intent.getStringExtra("Type");
 
         setContentView(R.layout.activity_detail);
-        if(findViewById(R.id.detail_content_tablet)!=null)
-            mTwoPane=true;
-            if(mTwoPane){
-                if(topOrLatest.equals("Top")) {
-                    mContentView = findViewById(R.id.TopFragmentFrameTablet);
-                    mContentView.setVisibility(View.VISIBLE);
-                }
-                else if(topOrLatest.equals("Latest")){
-                    mContentView = findViewById(R.id.LatestFragmentFrameTablet);
-                    mContentView.setVisibility(View.VISIBLE);
-                }
+        if (findViewById(R.id.detail_content_tablet) != null)
+            mTwoPane = true;
+        if (mTwoPane) {
+            if (topOrLatest.equals("Top")) {
+                mContentView = findViewById(R.id.TopFragmentFrameTablet);
+                mContentView.setVisibility(View.VISIBLE);
+            } else if (topOrLatest.equals("Latest")) {
+                mContentView = findViewById(R.id.LatestFragmentFrameTablet);
+                mContentView.setVisibility(View.VISIBLE);
             }
+        }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -136,7 +133,6 @@ public class DetailActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.article_image);
-
 
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -150,14 +146,13 @@ public class DetailActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-       //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
 
-
-        Log.d(LOG_TAG," ARTICLE URL : "+article_url);
-        Log.d(LOG_TAG," NEWS SRC : "+NewsSource);
+        Log.d(LOG_TAG, " ARTICLE URL : " + article_url);
+        Log.d(LOG_TAG, " NEWS SRC : " + NewsSource);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
-        TextView textView = (TextView)findViewById(R.id.title);
+        TextView textView = (TextView) findViewById(R.id.title);
 
         Picasso.with(getApplicationContext()).load(url_image).into(imageView);
         textView.setText(title);
@@ -166,13 +161,12 @@ public class DetailActivity extends AppCompatActivity {
         // Courtsey Kiran Golla..kirangolla@gmail.com
 
 
-
         WebView myWebView = (WebView) findViewById(R.id.webview);
         final WebSettings webSettings = myWebView.getSettings();
         Resources res = getResources();
-        webSettings.setDefaultFontSize((int)res.getDimension(R.dimen.tab_text_size_desc));
+        webSettings.setDefaultFontSize((int) res.getDimension(R.dimen.tab_text_size_desc));
         myWebView.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
-        myWebView.loadUrl(ARTICLE_TEXT_URL+article_url+"&html=1");
+        myWebView.loadUrl(ARTICLE_TEXT_URL + article_url + "&html=1");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

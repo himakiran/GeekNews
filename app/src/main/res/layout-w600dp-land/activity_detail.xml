@@ -2,50 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_content_tablet"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:id="@+id/detail_content_tablet">
+    android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/TopFragmentFrameTablet"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        >
+        android:layout_weight="1"
+        android:visibility="gone">
 
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:name="biz.chundi.geeknews.TopFragment"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/LatestFragmentFrameTablet"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        >
+        android:layout_weight="1"
+        android:visibility="gone">
 
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:name="biz.chundi.geeknews.LatestFragment"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
+
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        >
+        android:layout_weight="2">
+
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
+            android:layout_weight="2"
             android:background="@color/cardview_light_background"
 
 
@@ -84,7 +82,7 @@
                         android:textSize="@dimen/tab_detail_text_size_title"
                         android:textStyle="bold" /><!--android:gravity="center"-->
 
-                    <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+                    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/webview"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -123,18 +121,25 @@
                     <Button
                         android:id="@+id/video_button"
                         style="?metaButtonBarButtonStyle"
-                        android:onClick="showVideos"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:onClick="showVideos"
                         android:text="@string/videos_button" />
 
                 </LinearLayout>
             </FrameLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/fab_margin"
+                app:srcCompat="@android:drawable/ic_dialog_email" />
 
         </FrameLayout>
 
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>
 
 

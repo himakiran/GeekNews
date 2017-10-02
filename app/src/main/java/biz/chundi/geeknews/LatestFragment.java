@@ -125,18 +125,17 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
                     // CursorAdapter returns a cursor at the correct position for getItem(), or null
                     // if it cannot seek to that position.
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                    Log.v("LatestFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
-
+                    Log.v("LatestFragment Listener", cursor.getColumnNames()[5].toString() + " " + cursor.getColumnNames()[6].toString() + cursor.getColumnNames()[2].toString() + cursor.getColumnNames()[3].toString() + cursor.getColumnNames()[4].toString());
 
 
                     if (cursor != null) {
 
-                        Intent intent = new Intent(getContext(),DetailActivity.class);
-                        intent.putExtra("image_url",cursor.getString(5));
-                        intent.putExtra("title",cursor.getString(2));
-                        intent.putExtra("article_url",cursor.getString(4));
-                        intent.putExtra("newsSrc",pref.getString("NewsSrc", "engadget"));
-                        intent.putExtra("Type","Latest");
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        intent.putExtra("image_url", cursor.getString(5));
+                        intent.putExtra("title", cursor.getString(2));
+                        intent.putExtra("article_url", cursor.getString(4));
+                        intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
+                        intent.putExtra("Type", "Latest");
                         Log.d("Latest Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);

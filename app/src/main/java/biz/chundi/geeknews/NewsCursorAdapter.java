@@ -3,7 +3,6 @@ package biz.chundi.geeknews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 
 /**
@@ -65,31 +62,28 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
 
         int viewType = getItemViewType(layout_type);
 
-        Resources res  = context.getResources();
+        Resources res = context.getResources();
 
         if (viewType == VIEW_TYPE_TOP) {
-            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
-                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
-            } else{
+            if (cursor.getString(TopFragment.COL_URLIMG) == null) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.newsapi));
+            } else {
                 Picasso.with(context).load(cursor.getString(TopFragment.COL_URLIMG)).into(vh.imgView);
             }
             vh.title.setText(cursor.getString(TopFragment.COL_TITLE));
             vh.description.setText(cursor.getString(TopFragment.COL_DESC));
-        }
-        else if(viewType == VIEW_TYPE_LATEST) {
-            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
-                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
-            } else{
+        } else if (viewType == VIEW_TYPE_LATEST) {
+            if (cursor.getString(TopFragment.COL_URLIMG) == null) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.newsapi));
+            } else {
                 Picasso.with(context).load(cursor.getString(LatestFragment.COL_URLIMG)).into(vh.imgView);
             }
             vh.title.setText(cursor.getString(LatestFragment.COL_TITLE));
             vh.pubDate.setText(cursor.getString(LatestFragment.COL_PUBDATE));
-        }
-
-        else if(viewType == VIEW_TYPE_POPULAR) {
-            if (cursor.getString(TopFragment.COL_URLIMG)==null) {
-                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.ic_launcher));
-            } else{
+        } else if (viewType == VIEW_TYPE_POPULAR) {
+            if (cursor.getString(TopFragment.COL_URLIMG) == null) {
+                vh.imgView.setImageDrawable(res.getDrawable(R.drawable.newsapi));
+            } else {
                 Picasso.with(context).load(cursor.getString(PopularFragment.COL_URLIMG)).into(vh.imgView);
             }
             vh.title.setText(cursor.getString(PopularFragment.COL_TITLE));
@@ -98,24 +92,24 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
 
     }
 
-        @Override
-        public int getItemViewType ( int position){
-            switch (position) {
-                case 0:
-                    return VIEW_TYPE_TOP;
-                case 1:
-                    return VIEW_TYPE_LATEST;
-                case 2:
-                    return VIEW_TYPE_POPULAR;
-            }
-            return 0;
-
+    @Override
+    public int getItemViewType(int position) {
+        switch (position) {
+            case 0:
+                return VIEW_TYPE_TOP;
+            case 1:
+                return VIEW_TYPE_LATEST;
+            case 2:
+                return VIEW_TYPE_POPULAR;
         }
+        return 0;
 
-        @Override
-        public int getViewTypeCount () {
-            return VIEW_TYPE_COUNT;
-        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
+    }
 
     public static class ViewHolder {
         public final ImageView imgView;
@@ -134,8 +128,7 @@ public class NewsCursorAdapter extends SimpleCursorAdapter {
     }
 
 
-
-    }
+}
 
 
 

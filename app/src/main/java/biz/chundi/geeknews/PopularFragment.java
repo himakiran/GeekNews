@@ -28,13 +28,10 @@ import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
 
-import static java.security.AccessController.getContext;
-
 /**
  * A fragment representing a list of Popular Articles
- *
  */
-public class PopularFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class PopularFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     static final int COL_TABLE_NAME = 0;
     static final int COL_AUTHOR = 1;
     static final int COL_TITLE = 2;
@@ -61,14 +58,15 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String SORTORDER = "top";
     public String LOG_TAG = PopularFragment.class.getSimpleName();
+    SharedPreferences pref;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private NewsService mService;
-    private static final String SORTORDER = "top";
     private NewsCursorAdapter mNewsCursorAdapter;
-    SharedPreferences pref ;
     private int mpos = ListView.INVALID_POSITION;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -119,36 +117,36 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
 /*
 
  */
-           lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // CursorAdapter returns a cursor at the correct position for getItem(), or null
-                // if it cannot seek to that position.
-                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                    // if it cannot seek to that position.
+                    Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                    Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString() + " " + cursor.getColumnNames()[6].toString() + cursor.getColumnNames()[2].toString() + cursor.getColumnNames()[3].toString() + cursor.getColumnNames()[4].toString());
 
-                pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                    pref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-                if (cursor != null) {
+                    if (cursor != null) {
 
-                    Intent intent = new Intent(getContext(),DetailActivity.class);
-                    intent.putExtra("image_url",cursor.getString(5));
-                    intent.putExtra("title",cursor.getString(2));
-                    intent.putExtra("article_url",cursor.getString(4));
-                    intent.putExtra("newsSrc",pref.getString("NewsSrc", "engadget"));
-                    intent.putExtra("Type","Top");
-                    Log.d("Top Fragment Cursor ", cursor.getString(5));
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        intent.putExtra("image_url", cursor.getString(5));
+                        intent.putExtra("title", cursor.getString(2));
+                        intent.putExtra("article_url", cursor.getString(4));
+                        intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
+                        intent.putExtra("Type", "Top");
+                        Log.d("Top Fragment Cursor ", cursor.getString(5));
 
-                    startActivity(intent);
+                        startActivity(intent);
 
+
+                    }
+                    // save the selected position.
+                    mpos = position;
 
                 }
-                // save the selected position.
-                mpos = position;
-
-            }
-        });
+            });
             if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
                 // The listview probably hasn't even been populated yet.  Actually perform the
                 // swapout in onLoadFinished.
@@ -157,17 +155,15 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
 
 
             ConnectivityManager cm =
-                    (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
-            if(isConnected) {
+            if (isConnected) {
                 // Below function launches the Retrofit to get JSON response
                 loadArticles();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), " Internet not available ", Toast.LENGTH_LONG).show();
             }
         }
