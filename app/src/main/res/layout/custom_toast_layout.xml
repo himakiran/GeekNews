@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5dc6b2">
+
+    <ImageView
+        android:id="@+id/custom_toast_image"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:contentDescription="@string/poweredBy"
+        android:src="@drawable/newsapi"/>
+
+    <TextView
+        android:id="@+id/custom_toast_message"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/poweredBy"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:text="@string/poweredBy" />
+
+</LinearLayout>

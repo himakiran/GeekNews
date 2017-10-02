@@ -65,7 +65,7 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private NewsService mService;
-    private static final String SORTORDER = "popular";
+    private static final String SORTORDER = "top";
     private NewsCursorAdapter mNewsCursorAdapter;
     SharedPreferences pref ;
     private int mpos = ListView.INVALID_POSITION;
@@ -175,12 +175,12 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public void loadArticles() {
-        setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        setUpContentSync(pref.getString("NewsSrc", "reddit-r-all"), SORTORDER);
         /*
             https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
          */
         getLoaderManager().restartLoader(101, null, this);
-        Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
+        Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "reddit-r-all"));
     }
 
     @Override
@@ -203,7 +203,7 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onStart() {
         super.onStart();
-        SyncNewsAdapter.performSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        SyncNewsAdapter.performSync(pref.getString("NewsSrc", "reddit-r-all"), SORTORDER);
 
     }
 
@@ -212,7 +212,7 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
         Uri NewsArticlesUri = NewsContract.NewsArticleEntry.buildNewsArticleSUri();
         // This is the select criteria ie get all articles from the selected src and whose sortorder is top
         final String SELECTION = "((" +
-                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc", "engadget") + "') AND (" +
+                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc", "reddit-r-all") + "') AND (" +
                 NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " == '" + SORTORDER + "' ))";
 
 

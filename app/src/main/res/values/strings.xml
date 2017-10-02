@@ -26,5 +26,6 @@
     <string name="article_text_parser_src">positionlogger.com</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="poweredBy">Powered By News API 2017.</string>
 
 </resources>

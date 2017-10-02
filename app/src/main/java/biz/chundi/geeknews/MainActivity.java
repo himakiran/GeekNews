@@ -13,9 +13,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import biz.chundi.geeknews.widget.NewsAppWidget;
 
@@ -49,6 +51,14 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Show Toast in custom Layout
+
+        LayoutInflater myInflater = LayoutInflater.from(this);
+        View view = myInflater.inflate(R.layout.custom_toast_layout, null);
+        Toast mytoast = new Toast(this);
+        mytoast.makeText(this,R.string.poweredBy,Toast.LENGTH_LONG);
+        mytoast.setView(view);
+        mytoast.show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
