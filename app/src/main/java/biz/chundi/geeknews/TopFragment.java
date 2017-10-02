@@ -132,7 +132,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                     // CursorAdapter returns a cursor at the correct position for getItem(), or null
                     // if it cannot seek to that position.
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                    Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
+                    //Log.v("TopFragment Listener", cursor.getColumnNames()[5].toString()+" "+cursor.getColumnNames()[6].toString()+cursor.getColumnNames()[2].toString()+cursor.getColumnNames()[3].toString()+cursor.getColumnNames()[4].toString());
 
                     pref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
@@ -184,7 +184,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
             https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
          */
         getLoaderManager().restartLoader(101, null, this);
-        Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
+       // Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
     }
 
     @Override
@@ -214,7 +214,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     public void setUpContentSync(String src, String sort) {
 
-        Log.d(LOG_TAG, " setUpContentSync ");
+      //  Log.d(LOG_TAG, " setUpContentSync ");
 
         NewsAccount.createSyncAccount(getContext());
         SyncNewsAdapter.performSync(src, sort);

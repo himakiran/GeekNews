@@ -46,7 +46,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
          */
         mContentResolver = context.getContentResolver();
 
-        Log.d(LOG_TAG, "SyncNewsAdapterCalled");
+        //Log.d(LOG_TAG, "SyncNewsAdapterCalled");
     }
 
     /**
@@ -71,7 +71,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle,
                               String s, ContentProviderClient contentProviderClient,
                               SyncResult syncResult) {
-        Log.d(LOG_TAG, "onPerformSync Called.");
+        //Log.d(LOG_TAG, "onPerformSync Called.");
 
         String newsSource = bundle.getString("newsSrc","engadget");
         String sortOrder = bundle.getString("sortOrder","top");
@@ -85,7 +85,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
     }
     public Void getArticlesFromNewsAPI(String src, String sort){
 
-        Log.d(LOG_TAG, "getArticlesFromeNewsApi");
+        //Log.d(LOG_TAG, "getArticlesFromeNewsApi");
 
         NewsService mService = getNewsService();
 
@@ -96,7 +96,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
 
                 if(response.isSuccessful()){
-                    Log.d(LOG_TAG," : " + response.toString());
+                    //Log.d(LOG_TAG," : " + response.toString());
                     updateDBWithArticlesData(response.body().getSource(),response.body().getSortBy(),response.body().getArticles());
 
                 }
@@ -116,7 +116,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
     void updateDBWithArticlesData(String newsSrc,String sortOrder, List<Article> articleList){
 
-        Log.d(LOG_TAG,"No of Articles : "+articleList.size());
+        //Log.d(LOG_TAG,"No of Articles : "+articleList.size());
 
         Vector<ContentValues> cVVector = new Vector<ContentValues>(articleList.size());
         ContentValues ArticleValues;
@@ -149,7 +149,7 @@ public class SyncNewsAdapter extends AbstractThreadedSyncAdapter {
 
             }
 
-        Log.d(LOG_TAG," Records Inserted are : "+inserted);
+        //Log.d(LOG_TAG," Records Inserted are : "+inserted);
 
         // To delete records older than five days
 

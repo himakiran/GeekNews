@@ -1,8 +1,10 @@
 package biz.chundi.geeknews.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by userhk on 18/09/17.
@@ -52,5 +54,33 @@ public class NewsDBHelper extends SQLiteOpenHelper {
         );
     }
 
+    // Helper function to retrieve titles of latest articles of selected news source for use in widget
+
+    public String[] getTitles(SQLiteDatabase db, String newsSrc) {
+
+       // return db.execSQL()
+
+        String[] stringList;
+        int i=0;
+        String  retQuery = "SELECT " + NewsContract.NewsArticleEntry.COLUMN_TITLE + " FROM " +
+                NewsContract.NewsArticleEntry.TABLE_NAME  + " WHERE " +" (" + NewsContract.NewsArticleEntry.COLUMN_SRC +
+                " = " + newsSrc + " );";
+
+        Cursor c = db.rawQuery(retQuery,null);
+
+        stringList = new String[c.getCount()];
+
+        c.moveToFirst();
+
+        while (c.isAfterLast() == false) {
+
+            String Title = c.getString(c.getColumnIndex("title"));
+            stringList[i++] = Title; //This I use to create listlayout dynamically and show all the Titles in it
+            c.moveToNext();
+        }
+
+        Log.d("DBHELPER", stringList.toString());
+        return new String[]{"abc","def","ghj"};
+    }
 
 }

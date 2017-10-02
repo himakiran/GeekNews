@@ -71,7 +71,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="biz.chundi.geeknews.MainActivity" />
         </activity>
-        <activity android:name=".videos.VideoActivity"></activity>
+        <activity android:name=".videos.VideoActivity" />
+
+        <receiver android:name=".widget.NewsAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/news_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

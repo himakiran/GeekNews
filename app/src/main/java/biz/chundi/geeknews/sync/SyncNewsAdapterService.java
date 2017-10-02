@@ -22,7 +22,7 @@ public class SyncNewsAdapterService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.d(LOG_TAG, "SyncNewsAdapterService called");
+       // Log.d(LOG_TAG, "SyncNewsAdapterService called");
 
         /*
          * Create the sync adapter as a singleton.
