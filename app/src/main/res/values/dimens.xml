@@ -5,6 +5,11 @@
     <dimen name="fab_margin">4dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="text_margin">4dp</dimen>
+    <dimen name="tab_tablet_size">21dp</dimen>
+    <dimen name="tab_detail_text_size_title">45sp</dimen>
+    <dimen name="phone_detail_text_size_title">34sp</dimen>
+    <dimen name="tab_text_size_title">24sp</dimen>
+    <dimen name="tab_text_size_desc">20sp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

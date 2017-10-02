@@ -13,7 +13,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false"
+        android:fillViewport="true"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -24,10 +24,10 @@
             <ImageView
                 android:id="@+id/article_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="400dp"
                 android:layout_margin="4dp"
                 android:contentDescription="article image"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher"
                 app:layout_collapseMode="parallax" /><!--android:layout_gravity="top"-->
 
@@ -38,16 +38,26 @@
                 android:keepScreenOn="true"
                 android:text="@string/dummy_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/phone_detail_text_size_title"
+                android:textSize="@dimen/tab_detail_text_size_title"
                 android:textStyle="bold" /><!--android:gravity="center"-->
 
             <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/webview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+
                 />
 
-            </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/fulltext_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:keepScreenOn="true"-->
+                <!--android:text="@string/dummy_content"-->
+                <!--android:textColor="#33b5e5"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold" />&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        </LinearLayout>
     </ScrollView>
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -79,11 +89,4 @@
         </LinearLayout>
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 </FrameLayout>

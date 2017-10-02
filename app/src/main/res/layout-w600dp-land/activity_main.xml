@@ -31,7 +31,10 @@
             android:layout_height="wrap_content"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
-            app:tabMode="fixed"/>
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+            app:tabSelectedTextColor="@color/colorTabSelected"
+            app:tabTextColor="@color/colorTab"/>
 
     </android.support.design.widget.AppBarLayout>
 

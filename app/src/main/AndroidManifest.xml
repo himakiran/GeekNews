@@ -30,6 +30,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="biz.chundi.geeknews.MainActivity" />
+        </activity>
+
 
         <!-- SyncAdapter's dummy authentication service -->
         <service android:name=".sync.SyncNewsAuthService">
@@ -61,16 +72,6 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity
-            android:name=".DetailActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_detail"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="biz.chundi.geeknews.MainActivity" />
-        </activity>
         <activity android:name=".videos.VideoActivity" />
 
         <receiver android:name=".widget.NewsAppWidget">

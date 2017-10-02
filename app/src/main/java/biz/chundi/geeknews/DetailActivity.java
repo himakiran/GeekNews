@@ -1,11 +1,11 @@
 package biz.chundi.geeknews;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -164,9 +165,29 @@ public class DetailActivity extends AppCompatActivity {
         // Using position logger to extract article text and display in webview.
         // Courtsey Kiran Golla..kirangolla@gmail.com
 
+
+
         WebView myWebView = (WebView) findViewById(R.id.webview);
+        final WebSettings webSettings = myWebView.getSettings();
+        Resources res = getResources();
+        webSettings.setDefaultFontSize((int)res.getDimension(R.dimen.tab_text_size_desc));
         myWebView.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
         myWebView.loadUrl(ARTICLE_TEXT_URL+article_url+"&html=1");
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+            }
+        });
 
     }
 

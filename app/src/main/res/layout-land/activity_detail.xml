@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/article_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:contentDescription="article image"
                 android:scaleType="centerInside"
@@ -47,7 +47,16 @@
                 android:layout_height="fill_parent"
                 />
 
-            </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/fulltext_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:keepScreenOn="true"-->
+                <!--android:text="@string/dummy_content"-->
+                <!--android:textColor="#33b5e5"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold" />&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        </LinearLayout>
     </ScrollView>
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -79,11 +88,4 @@
         </LinearLayout>
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 </FrameLayout>
