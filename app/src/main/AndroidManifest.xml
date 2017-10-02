@@ -82,6 +82,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/news_app_widget_info" />
         </receiver>
+        <service android:name=".widget.ListViewWidgetService"
+
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

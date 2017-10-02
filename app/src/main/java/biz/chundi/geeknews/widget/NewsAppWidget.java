@@ -18,7 +18,7 @@ import biz.chundi.geeknews.R;
  */
 public class NewsAppWidget extends AppWidgetProvider {
 
-    public static final String UPDATE_MEETING_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+    public static final String UPDATE_NEWS_ARTICLES = "android.appwidget.action.APPWIDGET_UPDATE";
     public static final String EXTRA_ITEM = "biz.chundi.geeknews.EXTRA_ITEM";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -72,7 +72,7 @@ public class NewsAppWidget extends AppWidgetProvider {
 
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
 
-        if (intent.getAction().equals(UPDATE_MEETING_ACTION)) {
+        if (intent.getAction().equals(UPDATE_NEWS_ARTICLES)) {
 
             int appWidgetIds[] = mgr.getAppWidgetIds(new ComponentName(context,NewsAppWidget.class));
 

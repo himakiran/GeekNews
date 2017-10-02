@@ -1,5 +1,6 @@
 package biz.chundi.geeknews;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import biz.chundi.geeknews.widget.NewsAppWidget;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -220,6 +223,11 @@ public class MainActivity extends AppCompatActivity  {
                     return new PopularFragment();
 
             }
+
+            Intent intent_article_update=new  Intent(getApplicationContext(),NewsAppWidget.class);
+            intent_article_update.setAction(NewsAppWidget.UPDATE_NEWS_ARTICLES);
+
+            getApplicationContext().sendBroadcast(intent_article_update);
             return null;
 
 

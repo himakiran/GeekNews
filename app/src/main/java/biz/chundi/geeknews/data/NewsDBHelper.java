@@ -1,10 +1,13 @@
 package biz.chundi.geeknews.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import biz.chundi.geeknews.widget.NewsAppWidget;
 
 /**
  * Created by userhk on 18/09/17.
@@ -14,9 +17,12 @@ public class NewsDBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "newsArticles.db";
+    public Context mContext;
 
     public NewsDBHelper(Context context){
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
     }
 
 
@@ -52,6 +58,11 @@ public class NewsDBHelper extends SQLiteOpenHelper {
                         NewsContract.NewsArticleEntry.COLUMN_SRC + " TEXT,  " +
                         NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " TEXT  " + ");"
         );
+
+        Intent intent_article_update=new  Intent(mContext,NewsAppWidget.class);
+        intent_article_update.setAction(NewsAppWidget.UPDATE_NEWS_ARTICLES);
+
+         mContext.sendBroadcast(intent_article_update);
     }
 
     // Helper function to retrieve titles of latest articles of selected news source for use in widget
@@ -64,7 +75,7 @@ public class NewsDBHelper extends SQLiteOpenHelper {
         int i=0;
         String  retQuery = "SELECT " + NewsContract.NewsArticleEntry.COLUMN_TITLE + " FROM " +
                 NewsContract.NewsArticleEntry.TABLE_NAME  + " WHERE " +" (" + NewsContract.NewsArticleEntry.COLUMN_SRC +
-                " = " + newsSrc + " );";
+                " = " + '"'+ newsSrc +'"'+ " );";
 
         Cursor c = db.rawQuery(retQuery,null);
 
@@ -80,7 +91,7 @@ public class NewsDBHelper extends SQLiteOpenHelper {
         }
 
         Log.d("DBHELPER", stringList.toString());
-        return new String[]{"abc","def","ghj"};
+        return stringList;
     }
 
 }
