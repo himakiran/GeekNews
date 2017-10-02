@@ -166,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
 
         WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
-        myWebView.loadUrl(ARTICLE_TEXT_URL+article_url);
+        myWebView.loadUrl(ARTICLE_TEXT_URL+article_url+"&html=1");
 
     }
 

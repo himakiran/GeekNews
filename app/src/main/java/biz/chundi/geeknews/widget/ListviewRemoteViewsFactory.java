@@ -15,6 +15,7 @@ import java.util.List;
 
 import biz.chundi.geeknews.NewsCursorAdapter;
 import biz.chundi.geeknews.R;
+import biz.chundi.geeknews.Utility;
 import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.NewsDBHelper;
 
@@ -117,8 +118,10 @@ public class ListviewRemoteViewsFactory implements RemoteViewsService.RemoteView
     {
         records = new ArrayList<String>();
 
+        String newsSrc = Utility.getNewsSource();
+
         newsDBHelper = new NewsDBHelper(mContext);
-        for (String each : newsDBHelper.getTitles(newsDBHelper.getReadableDatabase(), "engadget")
+        for (String each : newsDBHelper.getTitles(newsDBHelper.getReadableDatabase(), newsSrc)
                 ) {
             records.add(each);
         }

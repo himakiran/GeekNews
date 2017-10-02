@@ -75,7 +75,8 @@ public class NewsDBHelper extends SQLiteOpenHelper {
         int i=0;
         String  retQuery = "SELECT " + NewsContract.NewsArticleEntry.COLUMN_TITLE + " FROM " +
                 NewsContract.NewsArticleEntry.TABLE_NAME  + " WHERE " +" (" + NewsContract.NewsArticleEntry.COLUMN_SRC +
-                " = " + '"'+ newsSrc +'"'+ " );";
+                " = " + '"'+ newsSrc +'"'+ " )" + " ORDER BY " + NewsContract.NewsArticleEntry.COLUMN_PUBDATE
+                + " DESC " +";";
 
         Cursor c = db.rawQuery(retQuery,null);
 
