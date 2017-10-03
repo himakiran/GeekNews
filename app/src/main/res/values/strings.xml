@@ -29,5 +29,26 @@
     <string name="poweredBy">Powered By News API 2017.</string>
     <string name="imgDesc">The Article image</string>
     <string name="vidDesc">The Youtube Video Thumbnail</string>
+    <string name="shrDesc">Sharing Desc</string>
+    <string name="article_image">article image</string>
+    <string name="no_news_articles">No News Articles</string>
+    <string name="imgurl">image_url</string>
+    <string name="title">title</string>
+    <string name="arturl">article_url</string>
+    <string name="newsrc">newsSrc</string>
+    <string name="type">Type</string>
+    <string name="topC">Top</string>
+    <string name="latC">Latest</string>
+    <string name="shareBody">Here is the share content body</string>
+    <string name="subject">Subject Here</string>
+    <string name="share">Share via</string>
+    <string name="latestvid">Latest Videos</string>
+    <string name="admobId">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="Newsrc">NewsSrc</string>
+    <string name="selpos">select-pos</string>
+    <string name="intrntNotAvlbl">Internet not available</string>
+    <string name="loadart">LoadArticles :</string>
+    <string name="newsssource">News Source</string>
+    <string name="reddit">reddit-r-all</string>
 
 </resources>

@@ -1,7 +1,5 @@
 package biz.chundi.geeknews;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import biz.chundi.geeknews.data.model.remote.NewsService;
@@ -43,12 +41,12 @@ public class Utility {
     }
 
     public static ArrayList<String> getVideoIdsList() {
-        Log.d(LOG_TAG, "GET VIDEOS LIST : " + videoIdsList.toString());
+        //Log.d(LOG_TAG, "GET VIDEOS LIST : " + videoIdsList.toString());
         return videoIdsList;
     }
 
     public static void setVideoIdsList(ArrayList<String> videosList) {
-        Log.d(LOG_TAG, "SET VIDEOS LIST : " + videoIdsList.toString());
+        //Log.d(LOG_TAG, "SET VIDEOS LIST : " + videoIdsList.toString());
         videoIdsList = videosList;
     }
 

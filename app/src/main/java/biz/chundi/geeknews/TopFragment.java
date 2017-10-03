@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +91,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.admobId));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         if (getArguments() != null) {
@@ -146,11 +145,11 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                     if (cursor != null) {
 
                         Intent intent = new Intent(getContext(), DetailActivity.class);
-                        intent.putExtra("image_url", cursor.getString(5));
-                        intent.putExtra("title", cursor.getString(2));
-                        intent.putExtra("article_url", cursor.getString(4));
-                        intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
-                        intent.putExtra("Type", "Top");
+                        intent.putExtra(getString(R.string.imgurl), cursor.getString(5));
+                        intent.putExtra(getString(R.string.title), cursor.getString(2));
+                        intent.putExtra(getString(R.string.arturl), cursor.getString(4));
+                        intent.putExtra(getString(R.string.newsrc), pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)));
+                        intent.putExtra(getString(R.string.type), getString(R.string.topC));
                         //Log.d("Top Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);
@@ -158,7 +157,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                             mInterstitialAd.show();
 
                         } else {
-                            Log.d("TAG", "The interstitial wasn't loaded yet.");
+                            //Log.d("TAG", "The interstitial wasn't loaded yet.");
                         }
 
 
@@ -184,7 +183,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                 // Below function launches the Retrofit to get JSON response
                 loadArticles();
             } else {
-                Toast.makeText(getContext(), " Internet not available ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.intrntNotAvlbl), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -192,7 +191,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     }
 
     public void loadArticles() {
-        setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        setUpContentSync(pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)), SORTORDER);
         /*
             https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
          */
@@ -220,7 +219,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onStart() {
         super.onStart();
-        SyncNewsAdapter.performSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        SyncNewsAdapter.performSync(pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)), SORTORDER);
 
     }
 
@@ -241,7 +240,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
         Uri NewsArticlesUri = NewsContract.NewsArticleEntry.buildNewsArticleSUri();
         // This is the select criteria ie get all articles from the selected src and whose sortorder is top
         final String SELECTION = "((" +
-                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc", "engadget") + "') AND (" +
+                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)) + "') AND (" +
                 NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " == '" + SORTORDER + "' ))";
 
 

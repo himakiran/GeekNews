@@ -11,15 +11,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import biz.chundi.geeknews.widget.NewsAppWidget;
@@ -115,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBody = "Here is the share content body";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                String shareBody = getString(R.string.shareBody);
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.subject));
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share)));
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         // Retrieve the last checked value and set accordingly.
         pref = getPreferences(MODE_PRIVATE);
-        String menuSelected = pref.getString("NewsSrc", "wired-de");
+        String menuSelected = pref.getString(getString(R.string.Newsrc), getString(R.string.wiredSrc));
         int menuItemId = 0;
         switch (menuSelected) {
             case "wired.de":
@@ -163,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        String menuID = "News Source";
+        String menuID = getString(R.string.newsssource);
         int id = item.getItemId();
         pref = getPreferences(MODE_PRIVATE); // 0 - for private mode
         editor = pref.edit();
@@ -176,48 +173,48 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item1:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", getString(R.string.wiredSrc));
+                editor.putString(getString(R.string.Newsrc), getString(R.string.wiredSrc));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.wiredSrc));
-                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.wiredSrc));
+                //Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.wiredSrc));
                 break;
             case R.id.item2:
                 Utility.setNewsSource(getString(R.string.recodeSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", getString(R.string.recodeSrc));
+                editor.putString(getString(R.string.Newsrc), getString(R.string.recodeSrc));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.recodeSrc));
-                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.recodeSrc));
+                //Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.recodeSrc));
                 break;
             case R.id.item3:
                 Utility.setNewsSource(getString(R.string.arsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", getString(R.string.arsSrc));
-                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.arsSrc));
+                editor.putString(getString(R.string.Newsrc), getString(R.string.arsSrc));
+                //Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.arsSrc));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.arsSrc));
                 break;
             case R.id.item4:
                 Utility.setNewsSource(getString(R.string.engadgetSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", getString(R.string.engadgetSrc));
-                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.engadgetSrc));
+                editor.putString(getString(R.string.Newsrc), getString(R.string.engadgetSrc));
+                //Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.engadgetSrc));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.engadgetSrc));
                 break;
             case R.id.item5:
                 Utility.setNewsSource(getString(R.string.hackernewsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", getString(R.string.hackernewsSrc));
-                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.hackernewsSrc));
+                editor.putString(getString(R.string.Newsrc), getString(R.string.hackernewsSrc));
+                //Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.hackernewsSrc));
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.hackernewsSrc));
                 break;
             default:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
-                editor.putString("NewsSrc", "wired.de");
-                Log.d(LOG_TAG, " SHARED PREF : " + "wired.de");
+                editor.putString(getString(R.string.Newsrc), "wired.de");
+                //Log.d(LOG_TAG, " SHARED PREF : " + "wired.de");
                 break;
 
         }
 
         editor.commit();
-        Log.d(LOG_TAG, " OPTION SELECTED " + item.toString());
+        // Log.d(LOG_TAG, " OPTION SELECTED " + item.toString());
 
         mViewPager.getAdapter().notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
@@ -285,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getItemPosition(Object object) {
 
-            Log.i(LOG_TAG, "Menu selected : " + object.toString());
+            //Log.i(LOG_TAG, "Menu selected : " + object.toString());
 
             return POSITION_NONE;
         }

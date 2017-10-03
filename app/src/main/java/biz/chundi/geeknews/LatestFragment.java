@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +92,7 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.admobId));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         if (getArguments() != null) {
@@ -132,18 +131,18 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
                     // CursorAdapter returns a cursor at the correct position for getItem(), or null
                     // if it cannot seek to that position.
                     Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                    Log.v("LatestFragment Listener", cursor.getColumnNames()[5].toString() + " " + cursor.getColumnNames()[6].toString() + cursor.getColumnNames()[2].toString() + cursor.getColumnNames()[3].toString() + cursor.getColumnNames()[4].toString());
+                    //Log.v("LatestFragment Listener", cursor.getColumnNames()[5].toString() + " " + cursor.getColumnNames()[6].toString() + cursor.getColumnNames()[2].toString() + cursor.getColumnNames()[3].toString() + cursor.getColumnNames()[4].toString());
 
 
                     if (cursor != null) {
 
                         Intent intent = new Intent(getContext(), DetailActivity.class);
-                        intent.putExtra("image_url", cursor.getString(5));
-                        intent.putExtra("title", cursor.getString(2));
-                        intent.putExtra("article_url", cursor.getString(4));
-                        intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
-                        intent.putExtra("Type", "Latest");
-                        Log.d("Latest Fragment Cursor ", cursor.getString(5));
+                        intent.putExtra(getString(R.string.imgurl), cursor.getString(5));
+                        intent.putExtra(getString(R.string.title), cursor.getString(2));
+                        intent.putExtra(getString(R.string.arturl), cursor.getString(4));
+                        intent.putExtra(getString(R.string.newsrc), pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)));
+                        intent.putExtra(getString(R.string.type), getString(R.string.latC));
+                        //Log.d("Latest Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);
 
@@ -154,10 +153,10 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
 
                 }
             });
-            if (savedInstanceState != null && savedInstanceState.containsKey("select-pos")) {
+            if (savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.selpos))) {
                 // The listview probably hasn't even been populated yet.  Actually perform the
                 // swapout in onLoadFinished.
-                mpos = savedInstanceState.getInt("select-pos");
+                mpos = savedInstanceState.getInt(getString(R.string.selpos));
             }
             ConnectivityManager cm =
                     (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -169,19 +168,19 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
                 // Below function launches the Retrofit to get JSON response
                 loadArticles();
             } else {
-                Toast.makeText(getContext(), " Internet not available ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.intrntNotAvlbl, Toast.LENGTH_LONG).show();
             }
         }
         return view;
     }
 
     public void loadArticles() {
-        setUpContentSync(pref.getString("NewsSrc", "engadget"), SORTORDER);
+        setUpContentSync(pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)), SORTORDER);
         /*
             https://stackoverflow.com/questions/18004951/reload-listfragment-loaded-by-loadermanager-loadercallbackslistitem
          */
         getLoaderManager().restartLoader(101, null, this);
-        Log.d(LOG_TAG, "LoadArticles : " + pref.getString("NewsSrc", "engadget"));
+        //Log.d(LOG_TAG, getString(R.string.loadart) + pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)));
     }
 
     @Override
@@ -189,7 +188,7 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
         Uri NewsArticlesUri = NewsContract.NewsArticleEntry.buildNewsArticleSUri();
         // This is the select criteria ie get all articles from the selected src and whose sortorder is top
         final String SELECTION = "((" +
-                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString("NewsSrc", "engadget") + "') AND (" +
+                NewsContract.NewsArticleEntry.COLUMN_SRC + " == '" + pref.getString(getString(R.string.Newsrc), getString(R.string.engadgetSrc)) + "') AND (" +
                 NewsContract.NewsArticleEntry.COLUMN_SORTORDER + " == '" + SORTORDER + "' ))";
 
 
@@ -211,7 +210,7 @@ public class LatestFragment extends Fragment implements LoaderManager.LoaderCall
 
     public void setUpContentSync(String src, String sort) {
 
-        Log.d(LOG_TAG, " setUpContentSync ");
+        //Log.d(LOG_TAG, " setUpContentSync ");
 
         NewsAccount.createSyncAccount(getContext());
         SyncNewsAdapter.performSync(src, sort);

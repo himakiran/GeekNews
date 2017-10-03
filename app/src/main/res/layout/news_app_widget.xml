@@ -26,6 +26,6 @@
 
         android:layout_margin="4dp"
 
-        android:text="No News Articles" />
+        android:text="@string/no_news_articles" />
 
 </RelativeLayout>

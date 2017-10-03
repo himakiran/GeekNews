@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,20 +44,6 @@ public class DetailActivity extends AppCompatActivity {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
     public String LOG_TAG = DetailActivity.class.getSimpleName();
     public String NewsSource;
     private boolean mTwoPane = false;
@@ -100,6 +85,20 @@ public class DetailActivity extends AppCompatActivity {
             hide();
         }
     };
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,27 +106,14 @@ public class DetailActivity extends AppCompatActivity {
 
         // Retrieve data from intent extras
         Intent intent = this.getIntent();
-        String url_image = intent.getStringExtra("image_url");
-        String title = intent.getStringExtra("title");
-        String article_url = intent.getStringExtra("article_url");
-        NewsSource = intent.getStringExtra("newsSrc");
-        String topOrLatest = intent.getStringExtra("Type");
+        String url_image = intent.getStringExtra(getString(R.string.imgurl));
+        String title = intent.getStringExtra(getString(R.string.title));
+        String article_url = intent.getStringExtra(getString(R.string.arturl));
+        NewsSource = intent.getStringExtra(getString(R.string.newsrc));
+        String topOrLatest = intent.getStringExtra(getString(R.string.type));
 
         setContentView(R.layout.activity_detail);
-        if (findViewById(R.id.detail_content_tablet) != null) {
-            mTwoPane = true;
-        }
-        if (mTwoPane) {
 
-            if (topOrLatest.equals("Top")) {
-                Log.d(LOG_TAG," Entererd here in tab  ");
-                mContentView = findViewById(R.id.TopFragmentFrameTablet);
-                mContentView.setVisibility(View.VISIBLE);
-            } else if (topOrLatest.equals("Latest")) {
-                mContentView = findViewById(R.id.LatestFragmentFrameTablet);
-                mContentView.setVisibility(View.VISIBLE);
-            }
-        }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -152,8 +138,8 @@ public class DetailActivity extends AppCompatActivity {
         //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
 
-        Log.d(LOG_TAG, " ARTICLE URL : " + article_url);
-        Log.d(LOG_TAG, " NEWS SRC : " + NewsSource);
+        //Log.d(LOG_TAG, " ARTICLE URL : " + article_url);
+        //Log.d(LOG_TAG, " NEWS SRC : " + NewsSource);
         ImageView imageView = (ImageView) findViewById(R.id.article_image);
         TextView textView = (TextView) findViewById(R.id.title);
 
@@ -177,10 +163,10 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBody = "Here is the share content body";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                String shareBody = getString(R.string.shareBody);
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.subject));
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share)));
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
@@ -255,7 +241,7 @@ public class DetailActivity extends AppCompatActivity {
     public void showVideos(View view) {
         Intent intent = new Intent(this, VideoActivity.class);
         DownloadYoutubeVideosList dl = new DownloadYoutubeVideosList();
-        String searchQuery = NewsSource + " " + "Latest Videos";
+        String searchQuery = NewsSource + " " + getString(R.string.latestvid);
 
         dl.execute(searchQuery);
         startActivity(intent);
