@@ -114,10 +114,13 @@ public class DetailActivity extends AppCompatActivity {
         String topOrLatest = intent.getStringExtra("Type");
 
         setContentView(R.layout.activity_detail);
-        if (findViewById(R.id.detail_content_tablet) != null)
+        if (findViewById(R.id.detail_content_tablet) != null) {
             mTwoPane = true;
+        }
         if (mTwoPane) {
+
             if (topOrLatest.equals("Top")) {
+                Log.d(LOG_TAG," Entererd here in tab  ");
                 mContentView = findViewById(R.id.TopFragmentFrameTablet);
                 mContentView.setVisibility(View.VISIBLE);
             } else if (topOrLatest.equals("Latest")) {

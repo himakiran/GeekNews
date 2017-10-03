@@ -19,7 +19,7 @@
     <string name="top">top</string>
     <string name="poplr">popular</string>
     <string name="lat">latest</string>
-
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="videos_button">Show related videos</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

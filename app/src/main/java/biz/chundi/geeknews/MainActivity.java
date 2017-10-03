@@ -18,6 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import biz.chundi.geeknews.widget.NewsAppWidget;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public String LOG_TAG = MainActivity.class.getSimpleName();
     public SharedPreferences pref;
     public SharedPreferences.Editor editor;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setContentView(R.layout.activity_main);
 
         // Show Toast in custom Layout
@@ -156,39 +163,50 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        String menuID = "News Source";
         int id = item.getItemId();
         pref = getPreferences(MODE_PRIVATE); // 0 - for private mode
         editor = pref.edit();
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, menuID);
+
+
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         switch (id) {
             case R.id.item1:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", "wired-de");
-                Log.d(LOG_TAG, " SHARED PREF : " + "wired-de");
+                editor.putString("NewsSrc", getString(R.string.wiredSrc));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.wiredSrc));
+                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.wiredSrc));
                 break;
             case R.id.item2:
                 Utility.setNewsSource(getString(R.string.recodeSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", "recode");
-                Log.d(LOG_TAG, " SHARED PREF : " + "recode");
+                editor.putString("NewsSrc", getString(R.string.recodeSrc));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.recodeSrc));
+                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.recodeSrc));
                 break;
             case R.id.item3:
                 Utility.setNewsSource(getString(R.string.arsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", "ars-technica");
-                Log.d(LOG_TAG, " SHARED PREF : " + "ars-technica");
+                editor.putString("NewsSrc", getString(R.string.arsSrc));
+                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.arsSrc));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.arsSrc));
                 break;
             case R.id.item4:
                 Utility.setNewsSource(getString(R.string.engadgetSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", "engadget");
-                Log.d(LOG_TAG, " SHARED PREF : " + "engadget");
+                editor.putString("NewsSrc", getString(R.string.engadgetSrc));
+                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.engadgetSrc));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.engadgetSrc));
                 break;
             case R.id.item5:
                 Utility.setNewsSource(getString(R.string.hackernewsSrc));
                 item.setChecked(true);
-                editor.putString("NewsSrc", "hacker-news");
-                Log.d(LOG_TAG, " SHARED PREF : " + "hacker-news");
+                editor.putString("NewsSrc", getString(R.string.hackernewsSrc));
+                Log.d(LOG_TAG, " SHARED PREF : " + getString(R.string.hackernewsSrc));
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getString(R.string.hackernewsSrc));
                 break;
             default:
                 Utility.setNewsSource(getString(R.string.wiredSrc));
@@ -220,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
-            Log.d(LOG_TAG, "MainActivity Position : " + position);
+            //Log.d(LOG_TAG, "MainActivity Position : " + position);
+
 
             switch (position) {
                 case 0:

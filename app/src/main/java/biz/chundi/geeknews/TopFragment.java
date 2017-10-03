@@ -23,6 +23,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.sync.NewsAccount;
 import biz.chundi.geeknews.sync.SyncNewsAdapter;
@@ -66,6 +69,7 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     private int mpos = ListView.INVALID_POSITION;
     private NewsCursorAdapter mNewsCursorAdapter;
     private boolean mTwoPane = false;
+    private InterstitialAd mInterstitialAd;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -87,6 +91,9 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -144,9 +151,15 @@ public class TopFragment extends Fragment implements LoaderManager.LoaderCallbac
                         intent.putExtra("article_url", cursor.getString(4));
                         intent.putExtra("newsSrc", pref.getString("NewsSrc", "engadget"));
                         intent.putExtra("Type", "Top");
-                        Log.d("Top Fragment Cursor ", cursor.getString(5));
+                        //Log.d("Top Fragment Cursor ", cursor.getString(5));
 
                         startActivity(intent);
+                        if (mInterstitialAd.isLoaded()) {
+                            mInterstitialAd.show();
+
+                        } else {
+                            Log.d("TAG", "The interstitial wasn't loaded yet.");
+                        }
 
 
                     }

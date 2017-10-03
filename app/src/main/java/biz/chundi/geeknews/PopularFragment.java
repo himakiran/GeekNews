@@ -23,6 +23,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import biz.chundi.geeknews.data.NewsContract;
 import biz.chundi.geeknews.data.model.remote.NewsService;
 import biz.chundi.geeknews.sync.NewsAccount;
@@ -66,6 +69,7 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     private NewsService mService;
     private NewsCursorAdapter mNewsCursorAdapter;
     private int mpos = ListView.INVALID_POSITION;
+    private InterstitialAd mInterstitialAd;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -87,6 +91,9 @@ public class PopularFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
