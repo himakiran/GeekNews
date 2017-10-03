@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "537171145121",
+    "firebase_url": "https://geeknews-9a206.firebaseio.com",
+    "project_id": "geeknews-9a206",
+    "storage_bucket": "geeknews-9a206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537171145121:android:01713049c6378842",
+        "android_client_info": {
+          "package_name": "biz.chundi.geeknews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537171145121-a9edvik3k2cpcmc7kju5bqu703vjhfbr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "biz.chundi.geeknews",
+            "certificate_hash": "993e31b162f7476b78fa358097c7d2b4927e7b9e"
+          }
+        },
+        {
+          "client_id": "537171145121-h81qh8i0fpjr7kgr9nq2u6vror8k923k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQh9ZO-JoZAcWaPgW8mBz9i9sXVhNUFMw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537171145121-h81qh8i0fpjr7kgr9nq2u6vror8k923k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
