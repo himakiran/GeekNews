@@ -37,7 +37,8 @@
                 android:id="@+id/btnYoutube_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center" />
+                android:scaleType="center"
+                android:contentDescription="@string/vidDesc"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
