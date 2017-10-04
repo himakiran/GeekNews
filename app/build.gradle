@@ -7,7 +7,7 @@ android {
         config {
             keyAlias 'chkey'
             keyPassword 'asdf@zxcv'
-            storeFile file('/Users/userhk/AndroidStudioProjects/GeekNews/keystore.chk')
+            storeFile file("$rootDir/keystore.chk")
             storePassword 'asdf@zxcv'
         }
     }
